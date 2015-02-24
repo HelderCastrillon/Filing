@@ -3,12 +3,12 @@ var appContractSDSC = angular.module("appContractSDSC", ['ngRoute','Dhis2Api','p
 appContractSDSC.config(function($routeProvider) {
  
 	  $routeProvider.when('/supervision', {
-		    templateUrl: "modules/contract/supervisionView.html",
+		    templateUrl: "modules/supervision/supervisionView.html",
 		    controller: "supervisionController"
 		  });
-	  $routeProvider.when('/attachinformation', {
-		  	templateUrl: "modules/contract/attachinformationView.html",
-		  	controller: "metadataimportController"
+	  $routeProvider.when('/administration', {
+		  	templateUrl: "modules/administrationcontract/administrationcontractView.html",
+		  	controller: "administrationcontractController"
 		  });
 	  $routeProvider.otherwise({
 	        redirectTo: '/'
