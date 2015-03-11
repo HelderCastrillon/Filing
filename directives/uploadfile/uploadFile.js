@@ -15,16 +15,24 @@ Dhis2Api.directive('fileModel', ['$parse', function ($parse) {
 }]);
 
 Dhis2Api.service('fileUpload', ['$http', function ($http) {
-    this.uploadFileToUrl = function(file, uploadUrl){
+    this.uploadFileToUrl = function(file, uploadUrl,name,folder){
         var fd = new FormData();
         fd.append('file', file);
         $http.post(uploadUrl, fd, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
+        },
+    	data : {
+    		name:name,
+    		folder:folder
+    	}
+        
+        )
+        .success(function (data) {
+            console.log(data);
         })
-        .success(function(){
-        })
-        .error(function(){
+        .error(function (error) {
+            console.log(error);
         });
     }
 }]);

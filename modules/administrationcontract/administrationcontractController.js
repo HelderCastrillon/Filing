@@ -3,7 +3,7 @@ appContractSDSC.controller('administrationcontractController', ['$scope', 'fileU
         var file = $scope.myFile;
         console.log('file is ' + JSON.stringify(file));
         var uploadUrl = "../../../upload/uploadFile";
-        fileUpload.uploadFileToUrl(file, uploadUrl);
+        fileUpload.uploadFileToUrl(file, uploadUrl, $scope.name, $scope.folder);
     };
     
 }]);
