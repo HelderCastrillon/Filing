@@ -1,5 +1,10 @@
-appContractSDSC.controller('administrationcontractController', ["$scope",'$filter',"commonvariable", "$modal", function($scope, $filter,commonvariable,$modal) {
-  $scope.supervisor={name:'Helder Castrillon', id:'10290528'};  
+appContractSDSC.controller('administrationcontractController', ['$scope', 'fileUpload', function($scope, fileUpload){
+    $scope.uploadFile = function(){
+        var file = $scope.myFile;
+        console.log('file is ' + JSON.stringify(file));
+        var uploadUrl = "../../../upload/uploadFile";
+        fileUpload.uploadFileToUrl(file, uploadUrl);
+    };
+    
 }]);
-
 
