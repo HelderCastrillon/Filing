@@ -18,21 +18,17 @@ Dhis2Api.service('fileUpload', ['$http', function ($http) {
     this.uploadFileToUrl = function(file, uploadUrl,name,folder){
         var fd = new FormData();
         fd.append('file', file);
+        fd.append('name',name);
+        fd.append('folder',folder);
         $http.post(uploadUrl, fd, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
-        },
-    	data : {
-    		name:name,
-    		folder:folder
-    	}
-        
-        )
+        })
         .success(function (data) {
             console.log(data);
         })
-        .error(function (error) {
-            console.log(error);
+        .error(function (data) {
+            console.log(data);
         });
     }
 }]);
