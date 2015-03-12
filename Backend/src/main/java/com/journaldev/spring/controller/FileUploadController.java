@@ -3,6 +3,8 @@ package com.journaldev.spring.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,16 +30,19 @@ public class FileUploadController {
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	public @ResponseBody
 	String uploadFileHandler(@RequestParam("file") MultipartFile file, @RequestParam("name") String name, @RequestParam("folder") String  folder ) {
-
+		String retval="";
 		if (!file.isEmpty()) {
 			try {
 				byte[] bytes = file.getBytes();	
 				// Creating the directory to store file
 				String rootPath = System.getProperty("catalina.home");
-				File dir = new File(rootPath + File.separator + "externalfiledhis"+File.separator+folder);
+				File dir = new File(rootPath + File.separator+"webapps" +File.separator + "externalfiledhis"+File.separator+folder);
 				if (!dir.exists())
 					dir.mkdirs();
-
+				//change name using current date
+				Date now = new Date();
+				SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+				name=format.format(now)+"-"+name;
 				// Create the file on server
 				File serverFile = new File(dir.getAbsolutePath()
 						+ File.separator + name);
@@ -46,15 +51,29 @@ public class FileUploadController {
 				stream.write(bytes);
 				stream.close();
 
-				logger.info("Server File Location="
-						+ serverFile.getAbsolutePath());
-
-				return "success" + name;
+			logger.info("Server File Location="+ serverFile.getAbsolutePath());
+			
+				retval="{\"url\":\"/externalfiledhis/"+folder+"/"+name+"\","
+						+ "\"name\":\""+name+"\","
+						+ "\"status\":\"success\","
+						+ "\"description\":\"success\""
+						+ "}";
+				return retval;
 			} catch (Exception e) {
-				return "failed to upload  => " + e.getMessage();
+				retval="{\"url\":\"\","
+						+ "\"name\":\"\","
+						+ "\"status\":\"error\","
+						+ "\"description\":\""+ e.getMessage()+"\""
+						+ "}";	
+				return retval;
 			}
 		} else {
-			return "failed to upload, because the file was empty.";
+			retval="{\"url\":\"\","
+					+ "\"name\":\"\","
+					+ "\"status\":\"error\","
+					+ "\"description\":\"failed to upload, because the file was empty.\""
+					+ "}";	
+				return retval;
 		}
 	}
 }

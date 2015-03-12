@@ -18,7 +18,8 @@ Dhis2Api.factory("commonvariable", function () {
 			OrganisationUnit:"",
 			OrganisationUnitList:[],
 			Period:"",
-			DataSet:""
+			DataSet:"",
+			Fileupload:""
 			};
 
    return Vari; 
