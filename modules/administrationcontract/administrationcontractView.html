@@ -1,9 +1,49 @@
-<input type="file" file-model="myFile"/>
-<progressbar class="progress-striped active" max="100" value="progressvalue" type="warning"><i>Subiendo archivo</i></progressbar>
-<button ng-click="uploadFile()">upload me</button>
-<div>
-<button ng-click="loadfile()">Cargar imagen</button>
-{{imgurl}}
-<img alt="" src="{{imgurl}}">
+<h3> Registro de información del contrato</h3>
+<div class='row'>
+<div class="col-md-6">
+	<label>Contratista</label>
+	   <input type="text"
+		           class="form-control" 
+		           placeholder="Seleccione un contratista"
+		           ng-model="txtContratist" />
+
+</div>
+</div>
+<div class='row'>
+<div class="col-md-6">
+	<label>Numero de contrato</label>
+	   <input type="text"
+		           class="form-control" 
+		           placeholder="numero de contrato"
+		           ng-model="txtContractNumber" />
+
+</div>
+</div>
+<div class="row">
+<div class="col-md-6">
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">Adjuntar contrato</h3>
+	  </div>
+	  <div class="panel-body">
+	    
+	    <input type="file" file-model="myFile"/>
+		<div class="row">
+			<div class="col-md-10">
+			<progressbar class="progress-striped {{upactive}}" max="100" value="progress" type="warning"></progressbar>
+			</div>
+			<div class="col-md-2">
+			<span class="glyphicon glyphicon-ok" ng-show="showinfo" aria-hidden="true"></span>
+			</div>
+		</div>
+		<button type="button" class="btn btn-primary" ng-click="uploadFile()">upload me</button>
+		{{imgurl}}
+	  </div>
+	</div>
+</div>
+</div>
+
+
+
 
 </div>
