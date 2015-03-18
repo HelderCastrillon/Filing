@@ -1,5 +1,8 @@
-appContractSDSC.controller('administrationcontractController', ['$scope', 'fileUpload','commonvariable','$timeout', function($scope, fileUpload,commonvariable,$timeout){
+appContractSDSC.controller('administrationcontractController', ['$filter','$scope', 'fileUpload','commonvariable','$timeout', function($filter,$scope, fileUpload,commonvariable,$timeout){
 	$scope.uploadFile = function(){
+
+		var $translate = $filter('translate');
+		
 		var file = $scope.myFile;
 		$scope.infofile=angular.fromJson(file);
         var uploadUrl = "../../../upload/uploadFile";
@@ -42,6 +45,30 @@ appContractSDSC.controller('administrationcontractController', ['$scope', 'fileU
     $scope.loadfile=function(){
     	$scope.imgurl=commonvariable.Fileupload.url;
     };
+
+    // Date datepicker
+  $scope.today = function() {
+    datetoday = new Date();
+    $scope.dt=(datetoday.getDay()<=9?"0"+datetoday.getDay():datetoday.getDay())+"/"+(datetoday.getMonth()<=9?"0"+datetoday.getMonth():datetoday.getMonth())+"/"+datetoday.getFullYear();
+  };
+  $scope.today();
+
+  $scope.clear = function () {
+    $scope.dt = null;
+  };
+
+  // Disable weekend selection
+  $scope.disabled = function(date, mode) {
+    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+  };
+  
+   $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.opened = true;
+  };
+
  
 }]);
 

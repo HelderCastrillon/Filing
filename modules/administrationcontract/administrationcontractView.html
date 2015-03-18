@@ -1,17 +1,12 @@
-<h3> Registro de información del contrato</h3>
+<h3>{{'CONTRACT_UPLOAD_FILE_TITTLE'| translate}}</h3>
 <div class='row'>
 <div class="col-md-6">
-	<label>Contratista</label>
-	   <input type="text"
-		           class="form-control" 
-		           placeholder="Seleccione un contratista"
-		           ng-model="txtContratist" />
-
+	<d2-dropdownlistentity></d2-dropdownlistentity>
 </div>
 </div>
 <div class='row'>
 <div class="col-md-6">
-	<label>Numero de contrato</label>
+	<label>{{'CONTRACT_UPLOAD_CONTRACT'| translate}}</label>
 	   <input type="text"
 		           class="form-control" 
 		           placeholder="numero de contrato"
@@ -20,10 +15,26 @@
 </div>
 </div>
 <div class="row">
+        <div class="col-md-6">
+       		<label>{{'CONTRACT_UPLOAD_CONTRACT_DATE'| translate}}</label>
+            <p class="input-group">
+              <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
+        </div>
+    </div>
+<div class="row">
+<div class="col-md-6">
+<br>
+</div>
+</div>
+<div class="row">
 <div class="col-md-6">
 	<div class="panel panel-default">
 	  <div class="panel-heading">
-	    <h3 class="panel-title">Adjuntar contrato</h3>
+	    <h3 class="panel-title">{{'CONTRACT_UPLOAD_CONTRACT_ATTACHED'| translate}}</h3>
 	  </div>
 	  <div class="panel-body">
 	    
@@ -36,14 +47,17 @@
 			<span class="glyphicon glyphicon-ok" ng-show="showinfo" aria-hidden="true"></span>
 			</div>
 		</div>
-		<button type="button" class="btn btn-primary" ng-click="uploadFile()">upload me</button>
+		<button type="button" class="btn btn-info" ng-click="uploadFile()">{{'CONTRACT_UPLOAD_FILE_BUTTON'| translate}}</button>
 		{{imgurl}}
 	  </div>
 	</div>
 </div>
 </div>
 
-
-
-
+<div class="row">
+	<div class="col-md-6">
+	<button type="button" class="btn btn-primary" ng-click="">{{'CONTRACT_UPLOAD_BUTTON_SAVE'| translate}}</button>
+	<button type="button" class="btn btn-default" ng-click="">{{'CONTRACT_UPLOAD_BUTTON_CANCEL'| translate}}</button>
+	</div>
+</div>
 </div>

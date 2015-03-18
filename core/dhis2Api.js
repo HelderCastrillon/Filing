@@ -34,10 +34,9 @@ Dhis2Api.factory("userAuthorization", ['$resource','commonvariable',function($re
 
 }]);
 
-Dhis2Api.factory("DataApprovalsState",['$resource','commonvariable', function ($resource,commonvariable) {
-	return $resource( commonvariable.url+"dataApprovals", 
-	{ds:'@ds',
-	pe:'@pe',
+Dhis2Api.factory("Entity",['$resource','commonvariable', function ($resource,commonvariable) {
+	return $resource( commonvariable.url+"trackedEntityInstances", 
+	{te:'@te',
 	ou:'@ou'},
   { get: { method: "GET"},
 	post: { method: "POST"},
