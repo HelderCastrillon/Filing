@@ -61,3 +61,23 @@
 	</div>
 </div>
 </div>
+
+<div class="table-responsive">
+<table class="table table-hover">
+<tr>
+<td>{{'CONTRACT_TABLE_DOC_ENTITY'| translate}}</td>
+<td>{{'CONTRACT_TABLE_NAME_ENTITY'| translate}}</td>
+<td>{{'CONTRACT_TABLE_NUM_CONTRACT'| translate}}</td>
+<td>{{'CONTRACT_TABLE_DATE_CONTRACT'| translate}}</td>
+<td>{{'CONTRACT_TABLE_URL_CONTRACT'| translate}}</td>
+</tr>
+<tr ng-repeat="dt in Entities.rows">
+<td>{{dt[5]}}</td>
+<td>{{dt[6]}}</td>
+<td>{{dt[7]}}</td>
+<td>{{dt[8]}}</td>
+<td>{{dt[4]}}</td>
+</tr>
+</table>
+
+</div>

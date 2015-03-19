@@ -1,4 +1,17 @@
-appContractSDSC.controller('administrationcontractController', ['$filter','$scope', 'fileUpload','commonvariable','$timeout', function($filter,$scope, fileUpload,commonvariable,$timeout){
+appContractSDSC.controller('administrationcontractController', ['$filter','$scope', 'fileUpload','commonvariable','$timeout','TrackerEntityinProgram', function($filter,$scope, fileUpload,commonvariable,$timeout,TrackerEntityinProgram){
+	
+	$scope.Entities=TrackerEntityinProgram.get({
+		te:'THEFPvQGywh',
+		ou:'maJjc7i6P7E',
+		program:'BnLSBHvqNS4',
+		ouMode:'SELECTED',
+		programStatus:'ACTIVE',
+		eventStartDate:'1915-03-18',
+		eventEndDate:'2015-03-18',
+		eventStatus:'VISITED'		
+	});
+	
+	
 	$scope.uploadFile = function(){
 
 		var $translate = $filter('translate');

@@ -21,6 +21,11 @@
 	"CONTRACT_UPLOAD_FILE_BUTTON":"subir archivo",
 	"CONTRACT_UPLOAD_BUTTON_SAVE":"Guardar contrato",
 	"CONTRACT_UPLOAD_BUTTON_CANCEL":"cancelar",
+	"CONTRACT_TABLE_DOC_ENTITY":"Documento",
+	"CONTRACT_TABLE_NAME_ENTITY":"Nombre",
+	"CONTRACT_TABLE_NUM_CONTRACT":"Numero Contrato",
+	"CONTRACT_TABLE_DATE_CONTRACT":"Fecha Contrato",
+	"CONTRACT_TABLE_URL_CONTRACT":"Adjunto",
 	
 	"_______________ Directive ":" Access_____________",
 	"ACCESS_TITLE":"Error de Acceso",
