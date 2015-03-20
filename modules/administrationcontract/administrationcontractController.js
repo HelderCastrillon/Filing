@@ -4,13 +4,13 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 	$scope.loadlistentities=function(nextpage){
 		
 		TrackerEntityinProgram.get({
-			te:'THEFPvQGywh',
-			ou:'maJjc7i6P7E',
-			program:'BnLSBHvqNS4',
+			te:commonvariable.TypeEntity,
+			ou:commonvariable.OrganisationUnit,
+			program:commonvariable.Program,
 			ouMode:'SELECTED',
 			programStatus:'ACTIVE',
-			eventStartDate:'1915-03-18',
-			eventEndDate:'2015-03-18',
+			eventStartDate:commonvariable.StartDate,
+			eventEndDate:commonvariable.EndDate,
 			eventStatus:'VISITED',
 			page:nextpage,
 			query:$scope.search
@@ -29,15 +29,15 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 	        return new Array(n);
 	    };
 	
-	      $scope.openAddinfo = function (size) {
+	      $scope.openAddinfo = function (size,typeattachselected) {
 
 	        var modalInstance = $modal.open({
 	          templateUrl: 'myModalContent.html',
 	          controller: 'ModalInstanceCtrl',
 	          size: size,
 	          resolve: {
-	            items: function () {
-	              return $scope.items;
+	            typeattach: function () {
+	              return typeattachselected;
 	            }
 	          }
 	        });
@@ -51,18 +51,20 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 	        
 	        
 	        $scope.$watch(
-	                function(commonvariable) {
-	                	$scope.search=commonvariable.Entity;
-	                	
+	                function($scope) {
+	                	$scope.search=commonvariable.Entity[7];
+	                	if($scope.search!=""){
+	                		console.log($scope.search);
+	                		$scope.loadlistentities(1);
+	                	}
 	                });
 
 
 }]);
-appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $filter, fileUpload,commonvariable,$timeout,TrackerEntityinProgram) {
-
+appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $filter, fileUpload,commonvariable,$timeout,TrackerEntityinProgram,typeattach) {
+	$scope.typeattachselected=typeattach;
 	$scope.uploadFile = function(){
-
-		var $translate = $filter('translate');
+	var $translate = $filter('translate');
 		
 		var file = $scope.myFile;
 		$scope.infofile=angular.fromJson(file);

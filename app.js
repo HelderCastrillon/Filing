@@ -11,7 +11,7 @@ appContractSDSC.config(function($routeProvider) {
 		  	controller: "administrationcontractController"
 		  });
 	  $routeProvider.otherwise({
-	        redirectTo: '/'
+	        redirectTo: '/administration'
 	  });   
 
 	});

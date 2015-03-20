@@ -25,8 +25,10 @@
 	"CONTRACT_TABLE_NAME_ENTITY":"Nombre",
 	"CONTRACT_TABLE_NUM_CONTRACT":"Numero Contrato",
 	"CONTRACT_TABLE_DATE_CONTRACT":"Fecha Contrato",
-	"CONTRACT_TABLE_URL_CONTRACT":"Adjunto",
-	
+	"CONTRACT_TABLE_URL_CONTRACT":"Contrato",
+	"CONTRACT_TABLE_URL_SUPERVISOR":"supervisior",
+	"CONTRACT_TABLE_URL_OTROSI":"OtroSi",
+	"CONTRACT_ADD_INFORMATION_TITTLE":"Adjuntar Información",
 	"_______________ Directive ":" Access_____________",
 	"ACCESS_TITLE":"Error de Acceso",
 	"ACCESS_DESC":"No tienes acceso a este modulo. Si requieres acceso por favor comunicate con el administrador del sistema",

@@ -23,13 +23,17 @@
 <td>{{'CONTRACT_TABLE_NUM_CONTRACT'| translate}}</td>
 <td>{{'CONTRACT_TABLE_DATE_CONTRACT'| translate}}</td>
 <td>{{'CONTRACT_TABLE_URL_CONTRACT'| translate}}</td>
+<td>{{'CONTRACT_TABLE_URL_SUPERVISOR'| translate}}</td>
+<td>{{'CONTRACT_TABLE_URL_OTROSI'| translate}}</td>
 </tr>
 <tr ng-repeat="dt in Entities.rows">
 <td>{{dt[5]}}</td>
 <td>{{dt[6]}}</td>
 <td>{{dt[7]}}</td>
 <td>{{dt[8]}}</td>
-<td><a ng-click="openAddinfo()" class="btn btn-info">Ver</a></td>
+<td><a ng-click="openAddinfo('','Contrato')" class="btn btn-info">Ver</a></td>
+<td><a ng-click="openAddinfo('','Oficio de supervisor')" class="btn btn-info">Ver</a></td>
+<td><a ng-click="openAddinfo('','Adicional - Otro Si')" class="btn btn-info">Ver</a></td>
 </tr>
 </table>
 
@@ -41,6 +45,7 @@
 <script type="text/ng-template" id="myModalContent.html">
         <div class="modal-header">
             <h3 class="modal-title">{{'CONTRACT_ADD_INFORMATION_TITTLE'| translate}}</h3>
+			<h4>{{typeattachselected}}</h4>
         </div>
         <div class="modal-body">
             
