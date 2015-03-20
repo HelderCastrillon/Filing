@@ -15,10 +15,11 @@ Dhis2Api.factory("commonvariable", function () {
 	var Vari={
 			url:"http://localhost:8080/dhis/api/",
 			urlbase:"http://localhost:8080/dhis/",
-			OrganisationUnit:"",
-			OrganisationUnitList:[],
+			OrganisationUnit:"z37AIsY28kM",
+			TypeEntity:"WkBTuQkUtRM",
 			Period:"",
 			DataSet:"",
+			Entity:"",
 			Fileupload:{"status":"waiting"}
 			};
 

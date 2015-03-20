@@ -1,17 +1,65 @@
-appContractSDSC.controller('administrationcontractController', ['$filter','$scope', 'fileUpload','commonvariable','$timeout','TrackerEntityinProgram', function($filter,$scope, fileUpload,commonvariable,$timeout,TrackerEntityinProgram){
+appContractSDSC.controller('administrationcontractController', ['$scope','$modal','TrackerEntityinProgram','commonvariable', function($scope,$modal,TrackerEntityinProgram,commonvariable){
 	
-	$scope.Entities=TrackerEntityinProgram.get({
-		te:'THEFPvQGywh',
-		ou:'maJjc7i6P7E',
-		program:'BnLSBHvqNS4',
-		ouMode:'SELECTED',
-		programStatus:'ACTIVE',
-		eventStartDate:'1915-03-18',
-		eventEndDate:'2015-03-18',
-		eventStatus:'VISITED'		
-	});
+	$scope.search="";
+	$scope.loadlistentities=function(nextpage){
+		
+		TrackerEntityinProgram.get({
+			te:'THEFPvQGywh',
+			ou:'maJjc7i6P7E',
+			program:'BnLSBHvqNS4',
+			ouMode:'SELECTED',
+			programStatus:'ACTIVE',
+			eventStartDate:'1915-03-18',
+			eventEndDate:'2015-03-18',
+			eventStatus:'VISITED',
+			page:nextpage,
+			query:$scope.search
+		}).$promise.then(function(data){
+			$scope.Entities=data;
+			$scope.numPages=data.metaData.pager.pageCount;
+		 });
+		
+		
+	}
+	
+	$scope.loadlistentities(1);
 	
 	
+	 $scope.range = function(n) {
+	        return new Array(n);
+	    };
+	
+	      $scope.openAddinfo = function (size) {
+
+	        var modalInstance = $modal.open({
+	          templateUrl: 'myModalContent.html',
+	          controller: 'ModalInstanceCtrl',
+	          size: size,
+	          resolve: {
+	            items: function () {
+	              return $scope.items;
+	            }
+	          }
+	        });
+	    
+	    modalInstance.result.then(function (responseSuccess) {
+	    	console.log(responseSuccess);      
+	    }, function (responseCancel) {
+	    	console.log(responseCancel);
+	          });
+	        };
+	        
+	        
+	        $scope.$watch(
+	                function(commonvariable) {
+	                	$scope.search=commonvariable.Entity;
+	                	
+	                });
+
+
+}]);
+appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $filter, fileUpload,commonvariable,$timeout,TrackerEntityinProgram) {
+
 	$scope.uploadFile = function(){
 
 		var $translate = $filter('translate');
@@ -82,6 +130,12 @@ appContractSDSC.controller('administrationcontractController', ['$filter','$scop
     $scope.opened = true;
   };
 
- 
-}]);
 
+	  $scope.ok = function () {
+	    $modalInstance.close('success');
+	  };
+
+	  $scope.cancel = function () {
+	    $modalInstance.dismiss('cancel');
+	  };
+	});

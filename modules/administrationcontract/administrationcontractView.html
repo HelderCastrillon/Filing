@@ -3,7 +3,47 @@
 <div class="col-md-6">
 	<d2-dropdownlistentity></d2-dropdownlistentity>
 </div>
+<div class="col-md-5">
+<div class="btn-toolbar" role="toolbar">
+<div class="btn-group" role="group" aria-label="First group">
+        <button type="button" class="btn btn-default" ng-click="loadlistentities($index+1)" ng-repeat="a in range(numPages) track by $index">{{$index + 1}}</button>
+ </div>
 </div>
+</div>
+</div>
+<br>
+<div class='row'>
+<div class="col-md-11">
+<div class="well">
+<div class="table-responsive" style="height : 600px; overflow : auto;">
+<table class="table table-hover">
+<tr>
+<td>{{'CONTRACT_TABLE_DOC_ENTITY'| translate}}</td>
+<td>{{'CONTRACT_TABLE_NAME_ENTITY'| translate}}</td>
+<td>{{'CONTRACT_TABLE_NUM_CONTRACT'| translate}}</td>
+<td>{{'CONTRACT_TABLE_DATE_CONTRACT'| translate}}</td>
+<td>{{'CONTRACT_TABLE_URL_CONTRACT'| translate}}</td>
+</tr>
+<tr ng-repeat="dt in Entities.rows">
+<td>{{dt[5]}}</td>
+<td>{{dt[6]}}</td>
+<td>{{dt[7]}}</td>
+<td>{{dt[8]}}</td>
+<td><a ng-click="openAddinfo()" class="btn btn-info">Ver</a></td>
+</tr>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+
+<script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">{{'CONTRACT_ADD_INFORMATION_TITTLE'| translate}}</h3>
+        </div>
+        <div class="modal-body">
+            
 <div class='row'>
 <div class="col-md-6">
 	<label>{{'CONTRACT_UPLOAD_CONTRACT'| translate}}</label>
@@ -15,7 +55,7 @@
 </div>
 </div>
 <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
        		<label>{{'CONTRACT_UPLOAD_CONTRACT_DATE'| translate}}</label>
             <p class="input-group">
               <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
@@ -26,12 +66,12 @@
         </div>
     </div>
 <div class="row">
-<div class="col-md-6">
+<div class="col-md-12">
 <br>
 </div>
 </div>
 <div class="row">
-<div class="col-md-6">
+<div class="col-md-12">
 	<div class="panel panel-default">
 	  <div class="panel-heading">
 	    <h3 class="panel-title">{{'CONTRACT_UPLOAD_CONTRACT_ATTACHED'| translate}}</h3>
@@ -54,30 +94,12 @@
 </div>
 </div>
 
-<div class="row">
-	<div class="col-md-6">
-	<button type="button" class="btn btn-primary" ng-click="">{{'CONTRACT_UPLOAD_BUTTON_SAVE'| translate}}</button>
-	<button type="button" class="btn btn-default" ng-click="">{{'CONTRACT_UPLOAD_BUTTON_CANCEL'| translate}}</button>
-	</div>
-</div>
-</div>
+   </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">{{'CONTRACT_UPLOAD_BUTTON_SAVE'| translate}}</button>
+            <button class="btn btn-warning" ng-click="cancel()">{{'CONTRACT_UPLOAD_BUTTON_CANCEL'| translate}}</button>
+        </div>
+    </script>
 
-<div class="table-responsive">
-<table class="table table-hover">
-<tr>
-<td>{{'CONTRACT_TABLE_DOC_ENTITY'| translate}}</td>
-<td>{{'CONTRACT_TABLE_NAME_ENTITY'| translate}}</td>
-<td>{{'CONTRACT_TABLE_NUM_CONTRACT'| translate}}</td>
-<td>{{'CONTRACT_TABLE_DATE_CONTRACT'| translate}}</td>
-<td>{{'CONTRACT_TABLE_URL_CONTRACT'| translate}}</td>
-</tr>
-<tr ng-repeat="dt in Entities.rows">
-<td>{{dt[5]}}</td>
-<td>{{dt[6]}}</td>
-<td>{{dt[7]}}</td>
-<td>{{dt[8]}}</td>
-<td>{{dt[4]}}</td>
-</tr>
-</table>
 
-</div>
+
