@@ -11,15 +11,22 @@ var Dhis2Api = angular.module("Dhis2Api", ['ngResource']);
 
 //Create all common variables of the apps 
 Dhis2Api.factory("commonvariable", function () {
-
+	var dtformated="";
+	var today = function() {
+	    var datetoday = new Date();
+	    dtformated=datetoday.getFullYear()+"-"+(datetoday.getMonth()<=9?"0"+datetoday.getMonth():datetoday.getMonth())+"-"+(datetoday.getDate()<=9?"0"+datetoday.getDate():datetoday.getDate()); 
+	};
+	 today();
 	var Vari={
 			url:"http://localhost:8080/dhis/api/",
 			urlbase:"http://localhost:8080/dhis/",
 			OrganisationUnit:"z37AIsY28kM",
 			TypeEntity:"WkBTuQkUtRM",
 			Program:"kmwWsj13wN0",
+			programStage:"rQFeRuU0y2T",
 			StartDate:'2015-01-01',
-			EndDate:'2016-01-01',
+			EndDate:dtformated,
+			DataElement:{"nContrato":"iIpswT0zho9","fContrato":"QkcfD67ZZhZ","rContrato":"B1UpXqZ48iX","rSupervision":"DUPFn7tCJJn","rEjecucion":"dJLaFwIe1bM"},
 			Period:"",
 			DataSet:"",
 			Entity:"",
@@ -58,6 +65,16 @@ Dhis2Api.factory("TrackerEntityinProgram",['$resource','commonvariable', functio
 	eventStartDate:'@eventStartDate',
 	eventEndDate:'@eventEndDate',
 	eventStatus:'@eventStatus'},
+  { get: { method: "GET"},
+	post: { method: "POST"},
+	remove: {method:'DELETE'}
+  });
+}]);
+Dhis2Api.factory("TrackerEvent",['$resource','commonvariable', function ($resource,commonvariable) {
+	return $resource( commonvariable.url+"events", 
+	{orgUnit:'@orgUnit',
+	programStage:'@programStage'
+	},
   { get: { method: "GET"},
 	post: { method: "POST"},
 	remove: {method:'DELETE'}

@@ -1,8 +1,29 @@
-appContractSDSC.controller('administrationcontractController', ['$scope','$modal','TrackerEntityinProgram','commonvariable', function($scope,$modal,TrackerEntityinProgram,commonvariable){
+appContractSDSC.controller('administrationcontractController', ['$scope','$modal','TrackerEntityinProgram','TrackerEvent','commonvariable', function($scope,$modal,TrackerEntityinProgram,TrackerEvent,commonvariable){
+	
+	$scope.findValue=function(events){
+		angular.forEach($scope.Entities.rows, function(eValue, eKey) {
+			angular.forEach(events, function(value, key) {
+				if(value.trackedEntityInstance==eValue[0]){
+					angular.forEach(commonvariable.DataElement, function(dValue, dKey) {
+						angular.forEach(value.dataValues, function(vValue, vKey) {
+							
+							if(vValue.dataElement==dValue){
+								$scope.Entities.rows[eKey][dKey]=vValue.value;
+							}
+						});
+					});
+				}
+			});
+			console.log($scope.Entities.rows);
+		});
+			
+	}
 	
 	$scope.search="";
 	$scope.loadlistentities=function(nextpage){
-		
+		if($scope.search){
+			$scope.likesearch="LIKE:"+$scope.search
+		}
 		TrackerEntityinProgram.get({
 			te:commonvariable.TypeEntity,
 			ou:commonvariable.OrganisationUnit,
@@ -13,15 +34,26 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 			eventEndDate:commonvariable.EndDate,
 			eventStatus:'VISITED',
 			page:nextpage,
-			query:$scope.search
+			query:$scope.likesearch
 		}).$promise.then(function(data){
 			$scope.Entities=data;
 			$scope.numPages=data.metaData.pager.pageCount;
+			$scope.loadInfomationEvent();
 		 });
 		
 		
 	}
 	
+	$scope.loadInfomationEvent=function(){
+		TrackerEvent.get({
+			orgUnit:commonvariable.OrganisationUnit,
+			programStage:commonvariable.programStage
+		}).$promise.then(function(data){
+			$scope.trackerValues=data;
+			$scope.findValue(data.events);
+		 });
+		
+	}
 	$scope.loadlistentities(1);
 	
 	
@@ -50,14 +82,7 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 	        };
 	        
 	        
-	        $scope.$watch(
-	                function($scope) {
-	                	$scope.search=commonvariable.Entity[7];
-	                	if($scope.search!=""){
-	                		console.log($scope.search);
-	                		$scope.loadlistentities(1);
-	                	}
-	                });
+	     
 
 
 }]);
@@ -112,7 +137,7 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
     // Date datepicker
   $scope.today = function() {
     datetoday = new Date();
-    $scope.dt=(datetoday.getDay()<=9?"0"+datetoday.getDay():datetoday.getDay())+"/"+(datetoday.getMonth()<=9?"0"+datetoday.getMonth():datetoday.getMonth())+"/"+datetoday.getFullYear();
+    $scope.dt=(datetoday.getDate()<=9?"0"+datetoday.getDate():datetoday.getDate())+"/"+(datetoday.getMonth()<=9?"0"+datetoday.getMonth():datetoday.getMonth())+"/"+datetoday.getFullYear();
   };
   $scope.today();
 

@@ -1,7 +1,11 @@
 <h3>{{'CONTRACT_UPLOAD_FILE_TITTLE'| translate}}</h3>
 <div class='row'>
 <div class="col-md-6">
-	<d2-dropdownlistentity></d2-dropdownlistentity>
+	<div class="input-group">
+  	<span class="input-group-addon" id="basic-addon1">{{ 'CONTRACT_UPLOAD_ENTITY' | translate }}</span>
+	<input type="text" id="search" ng-model="search" ng-change="loadlistentities(1)" placeholder="{{'CONTRACT_UPLOAD_ENTITY_FIND' | translate }}" class="form-control">
+	<span class="input-group-addon glyphicon glyphicon-search"></span>
+	</div>
 </div>
 <div class="col-md-5">
 <div class="btn-toolbar" role="toolbar">
@@ -29,8 +33,8 @@
 <tr ng-repeat="dt in Entities.rows">
 <td>{{dt[5]}}</td>
 <td>{{dt[6]}}</td>
-<td>{{dt[7]}}</td>
-<td>{{dt[8]}}</td>
+<td>{{dt.nContrato}}</td>
+<td>{{dt.fContrato}}</td>
 <td><a ng-click="openAddinfo('','Contrato')" class="btn btn-info">Ver</a></td>
 <td><a ng-click="openAddinfo('','Oficio de supervisor')" class="btn btn-info">Ver</a></td>
 <td><a ng-click="openAddinfo('','Adicional - Otro Si')" class="btn btn-info">Ver</a></td>
@@ -44,8 +48,10 @@
 
 <script type="text/ng-template" id="myModalContent.html">
         <div class="modal-header">
-            <h3 class="modal-title">{{'CONTRACT_ADD_INFORMATION_TITTLE'| translate}}</h3>
-			<h4>{{typeattachselected}}</h4>
+<div class="page-header">
+ <h3 class="modal-title">{{'CONTRACT_ADD_INFORMATION_TITTLE'| translate}}  <small>{{typeattachselected}}</small> </h3>
+</div>           
+
         </div>
         <div class="modal-body">
             
