@@ -6,7 +6,6 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 				if(value.trackedEntityInstance==eValue[0]){
 					angular.forEach(commonvariable.DataElement, function(dValue, dKey) {
 						angular.forEach(value.dataValues, function(vValue, vKey) {
-							
 							if(vValue.dataElement==dValue){
 								$scope.Entities.rows[eKey][dKey]=vValue.value;
 							}
@@ -14,7 +13,7 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 					});
 				}
 			});
-			console.log($scope.Entities.rows);
+		console.log($scope.Entities.rows);
 		});
 			
 	}
@@ -32,7 +31,7 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 			programStatus:'ACTIVE',
 			eventStartDate:commonvariable.StartDate,
 			eventEndDate:commonvariable.EndDate,
-			eventStatus:'VISITED',
+			eventStatus:'ACTIVE',
 			page:nextpage,
 			query:$scope.likesearch
 		}).$promise.then(function(data){
@@ -61,26 +60,30 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 	        return new Array(n);
 	    };
 	
-	      $scope.openAddinfo = function (size,typeattachselected) {
-
-	        var modalInstance = $modal.open({
-	          templateUrl: 'myModalContent.html',
-	          controller: 'ModalInstanceCtrl',
-	          size: size,
-	          resolve: {
-	            typeattach: function () {
-	              return typeattachselected;
-	            }
-	          }
-	        });
-	    
-	    modalInstance.result.then(function (responseSuccess) {
-	    	console.log(responseSuccess);      
-	    }, function (responseCancel) {
-	    	console.log(responseCancel);
-	          });
-	        };
-	        
+	      $scope.openAddinfo = function (size,typeattachselected,link) {
+	    	  if(link){
+	    		  window.open(link);
+	    		  
+	    	  }
+	    	  else{
+		        var modalInstance = $modal.open({
+		          templateUrl: 'myModalContent.html',
+		          controller: 'ModalInstanceCtrl',
+		          size: size,
+		          resolve: {
+		            typeattach: function () {
+		              return typeattachselected;
+		            }
+		          }
+		        });
+		    
+		    modalInstance.result.then(function (responseSuccess) {
+		    	console.log(responseSuccess);      
+		    }, function (responseCancel) {
+		    	console.log(responseCancel);
+		          });
+		        };
+	      }
 	        
 	     
 
