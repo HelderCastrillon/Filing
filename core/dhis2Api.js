@@ -21,6 +21,7 @@ Dhis2Api.factory("commonvariable", function () {
 			url:"http://localhost:8080/dhis/api/",
 			urlbase:"http://localhost:8080/dhis/",
 			urldownload:"http://localhost:8080/externalfiledhis/",
+			urlupload:"../../../upload/uploadFile",
 			folder:"Contratos",
 			OrganisationUnit:"z37AIsY28kM",
 			TypeEntity:"WkBTuQkUtRM",

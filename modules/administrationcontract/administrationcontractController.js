@@ -8,13 +8,13 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 						angular.forEach(value.dataValues, function(vValue, vKey) {
 							if(vValue.dataElement==dValue){
 								$scope.Entities.rows[eKey][dKey]=vValue.value;
-								$scope.Entities.rows[eKey]['DataEvent']=value;
 							}
 						});
 					});
+					$scope.Entities.rows[eKey]['DataEvent']=value;
 				}
 			});
-		//console.log($scope.Entities.rows);
+		console.log($scope.Entities.rows);
 		});
 			
 	}
@@ -73,19 +73,16 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 		          controller: 'ModalInstanceCtrl',
 		          size: size,
 		          resolve: {
-		            typeattach: function () {
-		              return typeattachselected;
-		            }
-		        },
-		          resolve: {
 		            DataValue: function () {
-		              return DataEvent;
+		            	DataEvent['typeattachselected']=typeattachselected;
+		            	return DataEvent;
 		            }
 		          }
 		        });
 		    
 		    modalInstance.result.then(function (responseSuccess) {
-		    	console.log(responseSuccess);      
+		    	console.log(responseSuccess); 
+		    	$scope.loadlistentities(1);
 		    }, function (responseCancel) {
 		    	console.log(responseCancel);
 		          });
@@ -96,17 +93,18 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 
 
 }]);
-appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $filter, fileUpload,commonvariable,$timeout,TrackerEntityinProgram,typeattach,DataValue,SaveDataEvent) {
+appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $filter, fileUpload,commonvariable,$timeout,TrackerEntityinProgram,DataValue,SaveDataEvent) {
 	
-	$scope.typeattachselected=typeattach;
-	console.log(DataValue);
+	$scope.typeattachselected= DataValue.typeattachselected;
 	$scope.uploadFile = function(){
 	var $translate = $filter('translate');
 		
 		var file = $scope.myFile;
 		$scope.infofile=angular.fromJson(file);
-        var uploadUrl = "../../../upload/uploadFile";
-        fileUpload.uploadFileToUrl(file, uploadUrl, $scope.infofile.name, commonvariable.folder);
+        var uploadUrl = commonvariable.urlupload;
+        currentdate= new Date();
+        $scope.filename= currentdate.getTime()+"-" + $scope.infofile.name;
+        fileUpload.uploadFileToUrl(file, commonvariable.urlupload,$scope.filename, commonvariable.folder);
         $scope.progress=0;
         $scope.showinfo=false;
         $scope.upactive="active";
@@ -149,12 +147,12 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
     // Date datepicker
   $scope.today = function() {
     datetoday = new Date();
-    $scope.dt=(datetoday.getDate()<=9?"0"+datetoday.getDate():datetoday.getDate())+"/"+(datetoday.getMonth()<=9?"0"+datetoday.getMonth():datetoday.getMonth())+"/"+datetoday.getFullYear();
+    $scope.ContractDate=(datetoday.getDate()<=9?"0"+datetoday.getDate():datetoday.getDate())+"/"+(datetoday.getMonth()<=9?"0"+datetoday.getMonth():datetoday.getMonth())+"/"+datetoday.getFullYear();
   };
   $scope.today();
 
   $scope.clear = function () {
-    $scope.dt = null;
+    $scope.ContractDate = null;
   };
 
   // Disable weekend selection
@@ -171,7 +169,33 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
 
 
 	  $scope.ok = function () {
-	  	//SaveDataEvent.update({uid:});
+		  var newEvent={
+	  				"event":DataValue.event,
+	  				"orgUnit":DataValue.orgUnit,
+	  				"program":DataValue.program,
+	  				"programStage":DataValue.programStage,
+	  				"status":DataValue.status,
+	  				"trackedEntityInstance":DataValue.trackedEntityInstance,
+	  				"dataValues":[
+	  				{
+	  				"dataElement":commonvariable.DataElement.nContrato,
+	  				"value":$scope.ContractNumber,
+	  				"providedElsewhere":false
+	  				},
+	  				{
+	  				"dataElement":commonvariable.DataElement.fContrato,
+	  				"value":$scope.ContractDate,
+	  				"providedElsewhere":false
+	  				},
+	  				{
+	  				"dataElement":commonvariable.DataElement.rContrato,
+	  				"value":$scope.filename,
+	  				"providedElsewhere":false
+	  				}
+	  				]
+	  				
+	  		};
+		  SaveDataEvent.update({uid:DataValue.event},newEvent);
 	    $modalInstance.close('success');
 	  };
 

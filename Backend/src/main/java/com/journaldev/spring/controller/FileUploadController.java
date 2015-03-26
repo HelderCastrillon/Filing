@@ -40,9 +40,9 @@ public class FileUploadController {
 				if (!dir.exists())
 					dir.mkdirs();
 				//change name using current date
-				Date now = new Date();
-				SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-				name=format.format(now)+"-"+name;
+				//Date now = new Date();
+				//SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+				//name=format.format(now)+"-"+name;
 				// Create the file on server
 				File serverFile = new File(dir.getAbsolutePath()
 						+ File.separator + name);
