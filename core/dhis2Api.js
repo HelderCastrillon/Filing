@@ -20,6 +20,8 @@ Dhis2Api.factory("commonvariable", function () {
 	var Vari={
 			url:"http://localhost:8080/dhis/api/",
 			urlbase:"http://localhost:8080/dhis/",
+			urldownload:"http://localhost:8080/externalfiledhis/",
+			folder:"Contratos",
 			OrganisationUnit:"z37AIsY28kM",
 			TypeEntity:"WkBTuQkUtRM",
 			Program:"kmwWsj13wN0",
@@ -78,5 +80,11 @@ Dhis2Api.factory("TrackerEvent",['$resource','commonvariable', function ($resour
   { get: { method: "GET"},
 	post: { method: "POST"},
 	remove: {method:'DELETE'}
+  });
+}]);
+Dhis2Api.factory("SaveDataEvent",['$resource','commonvariable', function ($resource,commonvariable) {
+	return $resource( commonvariable.url+"events/:uid", 
+	null,
+  { update: { method: "PUT"}
   });
 }]);

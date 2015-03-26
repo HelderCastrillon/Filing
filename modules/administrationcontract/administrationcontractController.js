@@ -8,12 +8,13 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 						angular.forEach(value.dataValues, function(vValue, vKey) {
 							if(vValue.dataElement==dValue){
 								$scope.Entities.rows[eKey][dKey]=vValue.value;
+								$scope.Entities.rows[eKey]['DataEvent']=value;
 							}
 						});
 					});
 				}
 			});
-		console.log($scope.Entities.rows);
+		//console.log($scope.Entities.rows);
 		});
 			
 	}
@@ -60,9 +61,10 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 	        return new Array(n);
 	    };
 	
-	      $scope.openAddinfo = function (size,typeattachselected,link) {
+	      $scope.openAddinfo = function (size,typeattachselected,link,DataEvent) {
 	    	  if(link){
-	    		  window.open(link);
+	    		  var nLink=commonvariable.urldownload + commonvariable.folder+"/"+link
+	    		  window.open(nLink);
 	    		  
 	    	  }
 	    	  else{
@@ -73,6 +75,11 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 		          resolve: {
 		            typeattach: function () {
 		              return typeattachselected;
+		            }
+		        },
+		          resolve: {
+		            DataValue: function () {
+		              return DataEvent;
 		            }
 		          }
 		        });
@@ -89,15 +96,17 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 
 
 }]);
-appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $filter, fileUpload,commonvariable,$timeout,TrackerEntityinProgram,typeattach) {
+appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $filter, fileUpload,commonvariable,$timeout,TrackerEntityinProgram,typeattach,DataValue,SaveDataEvent) {
+	
 	$scope.typeattachselected=typeattach;
+	console.log(DataValue);
 	$scope.uploadFile = function(){
 	var $translate = $filter('translate');
 		
 		var file = $scope.myFile;
 		$scope.infofile=angular.fromJson(file);
         var uploadUrl = "../../../upload/uploadFile";
-        fileUpload.uploadFileToUrl(file, uploadUrl, $scope.infofile.name, "Contratos");
+        fileUpload.uploadFileToUrl(file, uploadUrl, $scope.infofile.name, commonvariable.folder);
         $scope.progress=0;
         $scope.showinfo=false;
         $scope.upactive="active";
@@ -162,6 +171,7 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
 
 
 	  $scope.ok = function () {
+	  	//SaveDataEvent.update({uid:});
 	    $modalInstance.close('success');
 	  };
 
