@@ -14,7 +14,7 @@ Dhis2Api.factory("commonvariable", function () {
 	var dtformated="";
 	var today = function() {
 	    var datetoday = new Date();
-	    dtformated=datetoday.getFullYear()+"-"+(datetoday.getMonth()<=9?"0"+datetoday.getMonth():datetoday.getMonth())+"-"+(datetoday.getDate()<=9?"0"+datetoday.getDate():datetoday.getDate()); 
+	    dtformated=datetoday.getFullYear()+"-"+((datetoday.getMonth()+1)<=9?"0"+(datetoday.getMonth()+1):(datetoday.getMonth()+1))+"-"+(datetoday.getDate()<=9?"0"+datetoday.getDate():datetoday.getDate()); 
 	};
 	 today();
 	var Vari={

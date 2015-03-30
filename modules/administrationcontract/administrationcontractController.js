@@ -96,6 +96,11 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $filter, fileUpload,commonvariable,$timeout,TrackerEntityinProgram,DataValue,SaveDataEvent) {
 	
 	$scope.typeattachselected= DataValue.typeattachselected;
+	if($scope.typeattachselected=='Contrato')
+		$scope.showinfocontract=true;
+	else
+		$scope.showinfocontract=false;
+	
 	$scope.uploadFile = function(){
 	var $translate = $filter('translate');
 		
@@ -169,14 +174,19 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
 
 
 	  $scope.ok = function () {
+
 		  var newEvent={
-	  				"event":DataValue.event,
-	  				"orgUnit":DataValue.orgUnit,
-	  				"program":DataValue.program,
-	  				"programStage":DataValue.programStage,
-	  				"status":DataValue.status,
-	  				"trackedEntityInstance":DataValue.trackedEntityInstance,
-	  				"dataValues":[
+		  				"event":DataValue.event,
+		  				"orgUnit":DataValue.orgUnit,
+		  				"program":DataValue.program,
+		  				"programStage":DataValue.programStage,
+		  				"status":DataValue.status,
+		  				"trackedEntityInstance":DataValue.trackedEntityInstance
+		  			};
+
+		  switch($scope.typeattachselected){
+		  	case "Contrato":
+	  			var newDataValue= {"dataValues":[
 	  				{
 	  				"dataElement":commonvariable.DataElement.nContrato,
 	  				"value":$scope.ContractNumber,
@@ -191,12 +201,27 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
 	  				"dataElement":commonvariable.DataElement.rContrato,
 	  				"value":$scope.filename,
 	  				"providedElsewhere":false
-	  				}
-	  				]
-	  				
-	  		};
-		  SaveDataEvent.update({uid:DataValue.event},newEvent);
-	    $modalInstance.close('success');
+	  				}]};	  				
+	  		
+		  		break;
+		  case "Supervision":
+
+			  	var newDataValue={"dataValues":[
+	  				{
+	  				"dataElement":commonvariable.DataElement.rSupervision,
+	  				"value":$scope.filename,
+	  				"providedElsewhere":false
+	  				}]};
+	  		  	break;
+			  }
+
+		  newEvent['dataValues']=DataValue.dataValues;
+		  var lim=newEvent.dataValues.length;
+		  angular.forEach(newDataValue.dataValues, function(value, key) {
+			  newEvent.dataValues[lim++]=value;
+			});
+		 SaveDataEvent.update({uid:DataValue.event},newEvent);
+	     $modalInstance.close('success');
 	  };
 
 	  $scope.cancel = function () {

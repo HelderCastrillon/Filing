@@ -22,21 +22,21 @@
 <div class="table-responsive" style="height : 600px; overflow : auto;">
 <table class="table table-hover">
 <tr>
-<td>{{'CONTRACT_TABLE_DOC_ENTITY'| translate}}</td>
-<td>{{'CONTRACT_TABLE_NAME_ENTITY'| translate}}</td>
-<td>{{'CONTRACT_TABLE_NUM_CONTRACT'| translate}}</td>
-<td>{{'CONTRACT_TABLE_DATE_CONTRACT'| translate}}</td>
-<td>{{'CONTRACT_TABLE_URL_CONTRACT'| translate}}</td>
-<td>{{'CONTRACT_TABLE_URL_SUPERVISOR'| translate}}</td>
-<td>{{'CONTRACT_TABLE_URL_OTROSI'| translate}}</td>
+<th>{{'CONTRACT_TABLE_DOC_ENTITY'| translate}}</th>
+<th>{{'CONTRACT_TABLE_NAME_ENTITY'| translate}}</th>
+<th>{{'CONTRACT_TABLE_NUM_CONTRACT'| translate}}</th>
+<th>{{'CONTRACT_TABLE_DATE_CONTRACT'| translate}}</th>
+<th>{{'CONTRACT_TABLE_URL_CONTRACT'| translate}}</th>
+<th>{{'CONTRACT_TABLE_URL_SUPERVISOR'| translate}}</th>
+<th>{{'CONTRACT_TABLE_URL_OTROSI'| translate}}</th>
 </tr>
-<tr ng-repeat="dt in Entities.rows">
+<tr ng-repeat="dt in Entities.rows"  class="{{(dt.nContrato)?'':'success'}}" >
 <td>{{dt[5]}} {{dt[6]}}</td>
 <td>{{dt[7]}}</td>
 <td>{{dt.nContrato}}</td>
 <td>{{dt.fContrato}}</td>
 <td><a ng-click="openAddinfo('','Contrato',dt.rContrato,dt.DataEvent)" class="btn btn-info"><span class="{{dt.rContrato!=undefined?'glyphicon glyphicon-paperclip':'glyphicon glyphicon-plus-sign'}}" aria-hidden="true"></span> </a></td>
-<td><a ng-click="openAddinfo('','Oficio de supervisor')" class="btn btn-info">Ver</a></td>
+<td><a ng-click="openAddinfo('','Supervision',dt.rSupervision,dt.DataEvent)" class="btn btn-info"><span class="{{dt.rSupervision!=undefined?'glyphicon glyphicon-paperclip':'glyphicon glyphicon-plus-sign'}}" aria-hidden="true"></span> </a></td>
 <td><a ng-click="openAddinfo('','Adicional - Otro Si')" class="btn btn-info">Ver</a></td>
 </tr>
 </table>
@@ -55,7 +55,7 @@
         </div>
         <div class="modal-body">
             
-<div class='row'>
+<div class='row' ng-show="showinfocontract">
 <div class="col-md-6">
 	<label>{{'CONTRACT_UPLOAD_CONTRACT'| translate}}</label>
 	   <input type="text"
@@ -65,7 +65,7 @@
 
 </div>
 </div>
-<div class="row">
+<div class="row" ng-show="showinfocontract">
         <div class="col-md-12">
        		<label>{{'CONTRACT_UPLOAD_CONTRACT_DATE'| translate}}</label>
             <p class="input-group">
