@@ -1,6 +1,6 @@
 {
 	"version" : "1",
-	"name" : "Contratos",
+	"name" : "Radicación",
 	"description" : "Radicación de contratos",
 	"launch_path" : "index.html",
 	"installs_allowed_from" : null,

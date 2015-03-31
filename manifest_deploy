@@ -1,6 +1,6 @@
 {
 	"version":"1"
-	,"name":"Contratos"
+	,"name":"Radicación"
 	,"description":"Radicación de contratos"
 	,"icons":{"16":null,"48":"img/icons/radication48.png","128":"img/icons/radication128.png"}
 	,"developer":{"url":"","name":"Helder Castrillon","company":"Secretaría departamental de Salud","email":"heldersoft@gmail.com"}
