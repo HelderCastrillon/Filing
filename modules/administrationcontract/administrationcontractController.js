@@ -95,12 +95,29 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 }]);
 appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $filter, fileUpload,commonvariable,$timeout,TrackerEntityinProgram,DataValue,SaveDataEvent) {
 	
+
+	$scope.showinfocontract=false;
+	$scope.showinfosupervision=false;
+	$scope.showinfootrosi=false;
+
 	$scope.typeattachselected= DataValue.typeattachselected;
-	if($scope.typeattachselected=='Contrato')
-		$scope.showinfocontract=true;
-	else
-		$scope.showinfocontract=false;
-	
+	switch($scope.typeattachselected){
+		case 'Contrato':
+			$scope.showinfocontract=true;
+			$scope.showinfosupervision=false;
+			$scope.showinfootrosi=false;
+			break;
+		case 'Supervision':
+			$scope.showinfocontract=false;
+			$scope.showinfosupervision=true;
+			$scope.showinfootrosi=false;
+			break;
+		case 'Adicional - Otro Si':
+			$scope.showinfocontract=false;
+			$scope.showinfosupervision=false;
+			$scope.showinfootrosi=true;
+			break;
+	}
 	$scope.uploadFile = function(){
 	var $translate = $filter('translate');
 		
@@ -215,7 +232,11 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
 	  		  	break;
 			  }
 
-		  newEvent['dataValues']=DataValue.dataValues;
+		  if(DataValue.dataValues)
+		  	newEvent['dataValues']=DataValue.dataValues;
+		  else
+		  	newEvent['dataValues']=[];
+		  
 		  var lim=newEvent.dataValues.length;
 		  angular.forEach(newDataValue.dataValues, function(value, key) {
 			  newEvent.dataValues[lim++]=value;

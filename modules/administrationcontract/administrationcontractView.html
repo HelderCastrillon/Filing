@@ -31,13 +31,13 @@
 <th>{{'CONTRACT_TABLE_URL_OTROSI'| translate}}</th>
 </tr>
 <tr ng-repeat="dt in Entities.rows"  class="{{(dt.nContrato)?'':'success'}}" >
-<td>{{dt[5]}} {{dt[6]}}</td>
-<td>{{dt[7]}}</td>
+<td>{{dt[5]}} {{dt[6]}}-{{dt[7]}}</td>
+<td>{{dt[8]}}</td>
 <td>{{dt.nContrato}}</td>
 <td>{{dt.fContrato}}</td>
 <td><a ng-click="openAddinfo('','Contrato',dt.rContrato,dt.DataEvent)" class="btn btn-info"><span class="{{dt.rContrato!=undefined?'glyphicon glyphicon-paperclip':'glyphicon glyphicon-plus-sign'}}" aria-hidden="true"></span> </a></td>
 <td><a ng-click="openAddinfo('','Supervision',dt.rSupervision,dt.DataEvent)" class="btn btn-info"><span class="{{dt.rSupervision!=undefined?'glyphicon glyphicon-paperclip':'glyphicon glyphicon-plus-sign'}}" aria-hidden="true"></span> </a></td>
-<td><a ng-click="openAddinfo('','Adicional - Otro Si')" class="btn btn-info">Ver</a></td>
+<td><a ng-click="openAddinfo('','Adicional - Otro Si',dt.rContrato,dt.DataEvent)" class="btn btn-info">Ver</a></td>
 </tr>
 </table>
 
@@ -47,69 +47,125 @@
 </div>
 
 <script type="text/ng-template" id="myModalContent.html">
-        <div class="modal-header">
-<div class="page-header">
- <h3 class="modal-title">{{'CONTRACT_ADD_INFORMATION_TITTLE'| translate}}  <small>{{typeattachselected}}</small> </h3>
-</div>           
+      
+	<div class="modal-header">
+		<div class="page-header">
+		 <h3 class="modal-title">{{'CONTRACT_ADD_INFORMATION_TITTLE'| translate}}  <small>{{typeattachselected}}</small> </h3>
+		</div>           
 
-        </div>
-        <div class="modal-body">
+     </div>
+     <div class="modal-body">
             
-<div class='row' ng-show="showinfocontract">
-<div class="col-md-6">
-	<label>{{'CONTRACT_UPLOAD_CONTRACT'| translate}}</label>
-	   <input type="text"
-		           class="form-control" 
-		           placeholder="numero de contrato"
-		           ng-model="ContractNumber" />
+			<!-- Contract div -->
+			<div class='row' ng-show="showinfocontract">
+				<div class="col-md-6">
+					<label>{{'CONTRACT_UPLOAD_CONTRACT'| translate}}</label>
+ 				   <input type="text" class="form-control" placeholder="numero de contrato" ng-model="ContractNumber" />
 
-</div>
-</div>
-<div class="row" ng-show="showinfocontract">
-        <div class="col-md-12">
-       		<label>{{'CONTRACT_UPLOAD_CONTRACT_DATE'| translate}}</label>
-            <p class="input-group">
-              <input type="text" class="form-control" datepicker-popup="dd/MM/yyyy" ng-model="ContractDate" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
-            </p>
-        </div>
-    </div>
-<div class="row">
-<div class="col-md-12">
-<br>
-</div>
-</div>
-<div class="row">
-<div class="col-md-12">
-	<div class="panel panel-default">
-	  <div class="panel-heading">
-	    <h3 class="panel-title">{{'CONTRACT_UPLOAD_CONTRACT_ATTACHED'| translate}}</h3>
-	  </div>
-	  <div class="panel-body">
-	    
-	    <input type="file" file-model="myFile"/>
-		<div class="row">
-			<div class="col-md-10">
-			<progressbar class="progress-striped {{upactive}}" max="100" value="progress" type="warning"></progressbar>
+				</div>
+			 	<div class="col-md-6">
+			       		<label>{{'CONTRACT_UPLOAD_CONTRACT_DATE'| translate}}</label>
+			            <p class="input-group">
+			              <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="ContractDate" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+			              <span class="input-group-btn">
+			                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+			              </span>
+			            </p>
+			     </div>
+		
+
+			<div class="row">
+				<div class="col-md-12">
+				<br>
+				</div>
 			</div>
-			<div class="col-md-2">
-			<span class="glyphicon glyphicon-ok" ng-show="showinfo" aria-hidden="true"></span>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-default">
+					  <div class="panel-heading">
+					    <h3 class="panel-title">{{'CONTRACT_UPLOAD_CONTRACT_ATTACHED'| translate}}</h3>
+					  </div>
+					  <div class="panel-body">
+					    
+					    <input type="file" file-model="myFile" accept="application/pdf"/>
+						<div class="row">
+							<div class="col-md-10">
+							<progressbar class="progress-striped {{upactive}}" max="100" value="progress" type="warning"></progressbar>
+							</div>
+							<div class="col-md-2">
+							<span class="glyphicon glyphicon-ok" ng-show="showinfo" aria-hidden="true"></span>
+							</div>
+						</div>
+						<button type="button" class="btn btn-info" ng-click="uploadFile()">{{'CONTRACT_UPLOAD_FILE_BUTTON'| translate}}</button>
+						{{imgurl}}
+					  </div>
+					</div>
+				</div>
 			</div>
 		</div>
-		<button type="button" class="btn btn-info" ng-click="uploadFile()">{{'CONTRACT_UPLOAD_FILE_BUTTON'| translate}}</button>
-		{{imgurl}}
-	  </div>
-	</div>
-</div>
-</div>
+		<!-- end Contract div -->
 
-   </div>
+		 <!-- Supervision div -->
+
+		<div class="row" ng-show="showinfosupervision">
+		<div class="col-md-11">
+			<div class="panel panel-default">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">{{'CONTRACT_SUPERVISOR_TITTLE'| translate}}</h3>
+			  </div>
+			  <div class="panel-body">
+					<div class="col-md-11">
+					<div class="row">
+						<div class="col-md-11">
+							<label>{{'CONTRACT_SUPERVISOR_NAME'| translate}}</label>
+		 				   <input type="text" class="form-control" placeholder="numero de contrato" ng-model="SupervisionName" />
+						</div>
+						<div class="col-md-11">
+							<label>{{'CONTRACT_SUPERVISOR_TYPE'| translate}}</label>
+		 				   <input type="text" class="form-control" placeholder="numero de contrato" ng-model="SupervisionType" />
+						</div>
+						<div class="col-md-11">
+							<label>{{'CONTRACT_SUPERVISOR_CONCEPT'| translate}}</label>
+		 				   <input type="text" class="form-control" placeholder="numero de contrato" ng-model="SupervisionConcept" />
+						</div>
+						<div class="col-md-11">
+							<label>{{'CONTRACT_SUPERVISOR_INITDATE'| translate}}</label>
+		 				   <input type="text" class="form-control" placeholder="numero de contrato" ng-model="SupervisionInitdate" />
+						</div>
+						<div class="col-md-11">
+							<label>{{'CONTRACT_SUPERVISOR_ENDDATE'| translate}}</label>
+		 				   <input type="text" class="form-control" placeholder="numero de contrato" ng-model="SupervisionEnddate" />
+						</div>						
+ 				   </div>
+			  </div>
+			</div>
+		</div>  
+		</div>  
+		<!-- end Supervision div -->
+
+		<!-- Otro Si -->
+
+		<div class="row" ng-show="showinfootrosi">
+		<div class="col-md-11">
+			<div class="panel panel-default">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">{{'CONTRACT_SUPERVISOR_TITTLE'| translate}}</h3>
+			  </div>
+			  <div class="panel-body">
+
+			  </div>
+			</div>
+		</div>  
+		</div>  
+		<!-- end Otro Si -->
+
+        <!-- Button -->
         <div class="modal-footer">
             <button class="btn btn-primary" ng-click="ok()">{{'CONTRACT_UPLOAD_BUTTON_SAVE'| translate}}</button>
             <button class="btn btn-warning" ng-click="cancel()">{{'CONTRACT_UPLOAD_BUTTON_CANCEL'| translate}}</button>
         </div>
+
+     </div>
     </script>
 
 
