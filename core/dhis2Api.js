@@ -89,3 +89,9 @@ Dhis2Api.factory("SaveDataEvent",['$resource','commonvariable', function ($resou
   { update: { method: "PUT"}
   });
 }]);
+
+Dhis2Api.factory("Optionset",['$resource','commonvariable', function ($resource,commonvariable) {
+	{uid:'@uid'},
+  { get: { method: "GET"}
+  });
+}]);
