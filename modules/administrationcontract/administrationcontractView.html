@@ -36,7 +36,11 @@
 <td>{{dt.nContrato}}</td>
 <td>{{dt.fContrato}}</td>
 <td><a ng-click="openAddinfo('','Contrato',dt.rContrato,dt.DataEvent)" class="btn btn-info"><span class="{{dt.rContrato!=undefined?'glyphicon glyphicon-paperclip':'glyphicon glyphicon-plus-sign'}}" aria-hidden="true"></span> </a></td>
-<td><a ng-click="openAddinfo('','Supervision',dt.rSupervision,dt.DataEvent)" class="btn btn-info"><span class="{{dt.rSupervision!=undefined?'glyphicon glyphicon-paperclip':'glyphicon glyphicon-plus-sign'}}" aria-hidden="true"></span> </a></td>
+<td>
+<a ng-click="openSupervision('','Supervision',dt.rSupervision,dt.DataEvent)" class="btn btn-info"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> </a>
+
+<a ng-click="openAddinfo('','Supervision',dt.rSupervision,dt.DataEvent)" class="btn btn-info"><span class="glyphicon glyphicon glyphicon-refresh" aria-hidden="true"></span> </a>
+</td>
 <td><a ng-click="openAddinfo('','Adicional - Otro Si',dt.rContrato,dt.DataEvent)" class="btn btn-info">Ver</a></td>
 </tr>
 </table>
@@ -118,29 +122,41 @@
 					<div class="row">
 						<div class="col-md-11">
 							<label>{{'CONTRACT_SUPERVISOR_NAME'| translate}}</label>
-		 				   <d2-dropdownoptionset uidoption="H6K1g3cTydR"></d2-dropdownoptionset>
+		 				   <d2-dropdownoptionset uidoption="H6K1g3cTydR" placeholder="Escriba el nombre del supervisor"></d2-dropdownoptionset>
 						</div>
 						<div class="col-md-11">
 							<label>{{'CONTRACT_SUPERVISOR_TYPE'| translate}}</label>
-		 				   <input type="text" class="form-control" placeholder="numero de contrato" ng-model="SupervisionType" />
-						</div>
+		 				   <d2-dropdownoptionset uidoption="UH4H0QcW20M" placeholder="Escriba el tipo de vinculación"></d2-dropdownoptionset>
+		 				</div>
 						<div class="col-md-11">
 							<label>{{'CONTRACT_SUPERVISOR_CONCEPT'| translate}}</label>
-		 				   <input type="text" class="form-control" placeholder="numero de contrato" ng-model="SupervisionConcept" />
+		 				    <d2-dropdownoptionset uidoption="eMwN8EaVXDs" placeholder="Escriba el concepto de asignación o cambio"></d2-dropdownoptionset>
+
 						</div>
 						<div class="col-md-11">
 							<label>{{'CONTRACT_SUPERVISOR_INITDATE'| translate}}</label>
-		 				   <input type="text" class="form-control" placeholder="numero de contrato" ng-model="SupervisionInitdate" />
+		 				       <p class="input-group">
+			              <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="initDate" is-open="openedinit" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+			              <span class="input-group-btn">
+			                <button type="button" class="btn btn-default" ng-click="openinitsup($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+			              </span>
+			            </p>
 						</div>
 						<div class="col-md-11">
 							<label>{{'CONTRACT_SUPERVISOR_ENDDATE'| translate}}</label>
-		 				   <input type="text" class="form-control" placeholder="numero de contrato" ng-model="SupervisionEnddate" />
+		 				     <p class="input-group">
+			              <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="endDate" is-open="openedend" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+			              <span class="input-group-btn">
+			                <button type="button" class="btn btn-default" ng-click="openendsup($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+			              </span>
+			            </p>
 						</div>						
  				   </div>
 			  </div>
 			</div>
 		</div>  
 		</div>  
+		</div>
 		<!-- end Supervision div -->
 
 		<!-- Otro Si -->

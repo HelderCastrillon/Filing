@@ -54,6 +54,16 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 		 });
 		
 	}
+	$scope.loadSupervisionList=function(){
+		TrackerEvent.get({
+			orgUnit:commonvariable.OrganisationUnit,
+			programStage:commonvariable.supervisionStage
+		}).$promise.then(function(data){
+			$scope.trackerValues=data;
+			$scope.findValue(data.events);
+		 });
+		
+	}
 	$scope.loadlistentities(1);
 	
 	
@@ -170,6 +180,10 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
   $scope.today = function() {
     datetoday = new Date();
     $scope.ContractDate=(datetoday.getDate()<=9?"0"+datetoday.getDate():datetoday.getDate())+"/"+(datetoday.getMonth()<=9?"0"+datetoday.getMonth():datetoday.getMonth())+"/"+datetoday.getFullYear();
+  	$scope.initDate=$scope.ContractDate;
+  	$scope.endDate=$scope.ContractDate;
+
+
   };
   $scope.today();
 
@@ -187,6 +201,18 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
     $event.stopPropagation();
 
     $scope.opened = true;
+  };
+  $scope.openinitsup = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.openedinit = true;
+  };
+  $scope.openendsup = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.openedend = true;
   };
 
 

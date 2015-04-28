@@ -27,6 +27,7 @@ Dhis2Api.factory("commonvariable", function () {
 			TypeEntity:"WkBTuQkUtRM",
 			Program:"kmwWsj13wN0",
 			programStage:"rQFeRuU0y2T",
+			supervisionStage:"bvCkspOICM2",
 			StartDate:'2015-01-01',
 			EndDate:dtformated,
 			DataElement:{"nContrato":"iIpswT0zho9","fContrato":"QkcfD67ZZhZ","rContrato":"B1UpXqZ48iX","rSupervision":"DUPFn7tCJJn","rEjecucion":"dJLaFwIe1bM"},
@@ -91,6 +92,7 @@ Dhis2Api.factory("SaveDataEvent",['$resource','commonvariable', function ($resou
 }]);
 
 Dhis2Api.factory("Optionset",['$resource','commonvariable', function ($resource,commonvariable) {
+	return $resource( commonvariable.url+"optionSets/:uid", 
 	{uid:'@uid'},
   { get: { method: "GET"}
   });
