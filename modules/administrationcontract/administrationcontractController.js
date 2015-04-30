@@ -14,7 +14,7 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 					$scope.Entities.rows[eKey]['DataEvent']=value;
 				}
 			});
-		console.log($scope.Entities.rows);
+		//console.log($scope.Entities.rows);
 		});
 			
 	}
@@ -54,16 +54,7 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 		 });
 		
 	}
-	$scope.loadSupervisionList=function(){
-		TrackerEvent.get({
-			orgUnit:commonvariable.OrganisationUnit,
-			programStage:commonvariable.supervisionStage
-		}).$promise.then(function(data){
-			$scope.trackerValues=data;
-			$scope.findValue(data.events);
-		 });
-		
-	}
+
 	$scope.loadlistentities(1);
 	
 	
@@ -103,12 +94,63 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 
 
 }]);
-appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $filter, fileUpload,commonvariable,$timeout,TrackerEntityinProgram,DataValue,SaveDataEvent) {
+appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $filter, fileUpload,commonvariable,$timeout,TrackerEntityinProgram,DataValue,SaveDataEvent,TrackerEvent,Optionset) {
 	
+	
+	$scope.loadSupervisor=function(){
+		Optionset.get({uid:'H6K1g3cTydR'}).$promise.then(function(data){
+			$scope.listSupervisior=data.options;
+		})};
+	$scope.loadSupervisor();
+	$scope.FindSupervisorCode=function(fcode,key){
+		$scope.formListSupervision=[];
+		angular.forEach($scope.listSupervisior, function(sValue,sKey) {
+			if(sValue.code==fcode){
+				$scope.formListSupervision[key]=sValue.name;
+				return 1;
+			}
+		});
+		return 0;
+	};
+
+	$scope.contructsupervision=function(){
+		$scope.formListSupervision=[];
+		angular.forEach($scope.supervisionlist.events, function(sValue, sKey) {
+			angular.forEach(sValue.dataValues, function(Value, Key) {
+				angular.forEach(commonvariable.DataelementSupervision, function(dValue, dKey) {
+						angular.forEach(dValue, function(iValue, iKey) {
+							if(Value.dataElement==iValue){
+								if(iKey.substring(0, 10)=='supervisor'){
+									$scope.FindSupervisorCode(Value.value,iKey);
+								}
+								else
+									$scope.formListSupervision[iKey]=Value.value;								
+							}
+						});
+					});
+			});
+		});
+	};
+
+	$scope.loadInfomationEvent=function(){
+		TrackerEvent.get({
+			orgUnit:commonvariable.OrganisationUnit,
+			programStage:commonvariable.supervisionStage,
+			trackedEntityInstance:DataValue.trackedEntityInstance
+		}).$promise.then(function(data){
+			$scope.supervisionlist=data;
+			$scope.contructsupervision();
+		 });
+		
+	};
+	
+
+	$scope.loadInfomationEvent();
 
 	$scope.showinfocontract=false;
 	$scope.showinfosupervision=false;
 	$scope.showinfootrosi=false;
+	$scope.showlistSupervision=false;
 
 	$scope.typeattachselected= DataValue.typeattachselected;
 	switch($scope.typeattachselected){
@@ -116,16 +158,25 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
 			$scope.showinfocontract=true;
 			$scope.showinfosupervision=false;
 			$scope.showinfootrosi=false;
+			$scope.showlistSupervision=false;
 			break;
 		case 'Supervision':
 			$scope.showinfocontract=false;
 			$scope.showinfosupervision=true;
 			$scope.showinfootrosi=false;
+			$scope.showlistSupervision=false;
 			break;
 		case 'Adicional - Otro Si':
 			$scope.showinfocontract=false;
 			$scope.showinfosupervision=false;
 			$scope.showinfootrosi=true;
+			$scope.showlistSupervision=false;
+			break;
+		case 'ListContract':
+			$scope.showinfocontract=false;
+			$scope.showinfosupervision=false;
+			$scope.showinfootrosi=false;
+			$scope.showlistSupervision=true;
 			break;
 	}
 	$scope.uploadFile = function(){
