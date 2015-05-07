@@ -39,7 +39,8 @@ Dhis2Api.factory("commonvariable", function () {
 			Period:"",
 			DataSet:"",
 			Entity:"",
-			Fileupload:{"status":"waiting"}
+			Fileupload:{"status":"waiting"},
+			OptionSet:[]
 			};
 
    return Vari; 

@@ -96,6 +96,7 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 }]);
 appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $filter, fileUpload,commonvariable,$timeout,TrackerEntityinProgram,DataValue,SaveDataEvent,TrackerEvent,Optionset) {
 	
+	$scope.alerts=[];
 	
 	$scope.loadSupervisor=function(){
 		Optionset.get({uid:'H6K1g3cTydR'}).$promise.then(function(data){
@@ -103,10 +104,9 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
 		})};
 	$scope.loadSupervisor();
 	$scope.FindSupervisorCode=function(fcode,key){
-		$scope.formListSupervision=[];
-		angular.forEach($scope.listSupervisior, function(sValue,sKey) {
-			if(sValue.code==fcode){
-				$scope.formListSupervision[key]=sValue.name;
+		angular.forEach($scope.listSupervisior, function(lValue,lKey) {
+			if(lValue.code==fcode){
+				$scope.formListSupervision[key]=lValue.name;
 				return 1;
 			}
 		});
@@ -121,6 +121,8 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
 						angular.forEach(dValue, function(iValue, iKey) {
 							if(Value.dataElement==iValue){
 								if(iKey.substring(0, 10)=='supervisor'){
+									$scope.currentsupervisior=iKey.substring(10, 11);
+									$scope.formListSupervision["number"+iKey.substring(10, 11)]=iKey.substring(10, 11);
 									$scope.FindSupervisorCode(Value.value,iKey);
 								}
 								else
@@ -130,6 +132,11 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
 					});
 			});
 		});
+	if($scope.currentsupervisior==5){
+		$scope.showinfosupervision=false;
+		$scope.showlistSupervision=true;
+		$scope.alerts.push({type: 'danger', msg: 'No puede adicionar otro supervisor solo se permiten 5, por favor consulte con el equipo de soporte'});
+	}
 	};
 
 	$scope.loadInfomationEvent=function(){
@@ -295,34 +302,65 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
 	  				"dataElement":commonvariable.DataElement.rContrato,
 	  				"value":$scope.filename,
 	  				"providedElsewhere":false
-	  				}]};	  				
+	  				}]};
+
+
+	  				//save value
+	  				if(DataValue.dataValues)
+					  	newEvent['dataValues']=DataValue.dataValues;
+				  	else
+				  		newEvent['dataValues']=[];
+				  
+				  	var lim=newEvent.dataValues.length;
+				  	angular.forEach(newDataValue.dataValues, function(value, key) {
+					  	newEvent.dataValues[lim++]=value;
+					});
+				 	SaveDataEvent.update({uid:DataValue.event},newEvent);
+				 	////	  				
 	  		
 		  		break;
 		  case "Supervision":
+		  		var newDataValue={"dataValues":[]};
+		  		
+				if($scope.supervisionlist.events[0].dataValues==undefined)
+					 $scope.supervisionlist.events[0].dataValues=[];
 
-			  	var newDataValue={"dataValues":[
-	  				{
-	  				"dataElement":commonvariable.DataElement.rSupervision,
-	  				"value":$scope.filename,
-	  				"providedElsewhere":false
-	  				}]};
+				var lim=$scope.supervisionlist.events[0].dataValues.length;
+
+		  		angular.forEach(commonvariable.DataelementSupervision[($scope.currentsupervisior==undefined?0:$scope.currentsupervisior)*1+1], function(dValue, dKey) {
+						$scope.supervisionlist.events[0].dataValues[lim++]={		
+				  				"dataElement":dValue,
+				  				"value":commonvariable.OptionSet[dKey.substring(0, dKey.length-1)].code,
+				  				"providedElsewhere":false
+				  				};
+
+					});
+
+		  		SaveDataEvent.update({uid:$scope.supervisionlist.events[0].event},$scope.supervisionlist.events[0]);
+			
+		  		console.log($scope.supervisionlist);
+
+	  		  	
 	  		  	break;
-			  }
+			  
+	    case "OTROsi":
+	    		
+	    		break;
+		}
+	    if($scope.typeattachselected=="Contrato"){
+			  
 
-		  if(DataValue.dataValues)
-		  	newEvent['dataValues']=DataValue.dataValues;
-		  else
-		  	newEvent['dataValues']=[];
-		  
-		  var lim=newEvent.dataValues.length;
-		  angular.forEach(newDataValue.dataValues, function(value, key) {
-			  newEvent.dataValues[lim++]=value;
-			});
-		 SaveDataEvent.update({uid:DataValue.event},newEvent);
+		}
 	     $modalInstance.close('success');
 	  };
 
 	  $scope.cancel = function () {
 	    $modalInstance.dismiss('cancel');
 	  };
+
+	  
+
+	$scope.closeAlert = function(index) {
+	    $scope.alerts.splice(index, 1);
+	};
 	});
