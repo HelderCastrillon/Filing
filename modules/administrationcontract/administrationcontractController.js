@@ -19,6 +19,47 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 			
 	}
 	
+	//find otroSi
+	$scope.findOtrosi=function(){
+
+		angular.forEach($scope.Entities.rows, function(eValue, eKey) {
+						
+				angular.forEach($scope.otrosilist.events, function(oValue, oKey) {
+					if(eValue[0]==oValue.trackedEntityInstance){						
+						$scope.numotrosi=0;	
+						$scope.numruta=0;					
+						angular.forEach(oValue.dataValues, function(oeValue, oeKey) {
+							angular.forEach(commonvariable.DataElementOtroSI, function(dValue, dKey) {
+								if(oeValue.dataElement==dValue.ruta){
+									$scope.numruta++;									
+								}
+								if(oeValue.dataElement==dValue.codigo){
+									$scope.numotrosi++;
+								}
+							});
+						});
+					}
+				});
+			if($scope.numruta==$scope.numotrosi)
+				$scope.Entities.rows[eKey]["ruta"]=true;
+			else 
+				$scope.Entities.rows[eKey]["ruta"]=false;
+			
+			$scope.Entities.rows[eKey]["numotrosi"]=$scope.numotrosi;
+		});
+	}
+
+
+	$scope.loadEventOtrosi=function(Stage,type){
+		TrackerEvent.get({
+			orgUnit:commonvariable.OrganisationUnit,
+			programStage:commonvariable.otroSiStage
+		}).$promise.then(function(data){
+			$scope.otrosilist=data;	
+			$scope.findOtrosi();		
+		 });		
+	};
+
 	$scope.search="";
 	$scope.loadlistentities=function(nextpage){
 		if($scope.search){
@@ -39,6 +80,8 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 			$scope.Entities=data;
 			$scope.numPages=data.metaData.pager.pageCount;
 			$scope.loadInfomationEvent();
+			// find otrosi
+			$scope.loadEventOtrosi();
 		 });
 		
 		
@@ -58,6 +101,8 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 	$scope.loadlistentities(1);
 	
 	
+
+
 	 $scope.range = function(n) {
 	        return new Array(n);
 	    };
@@ -139,51 +184,98 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
 	}
 	};
 
-	$scope.loadInfomationEvent=function(){
+
+	$scope.contructOtrosi=function(){
+		$scope.formListOtrosi=[];
+		var k=0;
+		var code="";
+		angular.forEach($scope.supervisionlist.events, function(sValue, sKey) {
+			angular.forEach(sValue.dataValues, function(Value, Key) {				
+				angular.forEach(commonvariable.DataElementOtroSI, function(dValue, dKey) {
+						angular.forEach(dValue, function(iValue, iKey) {
+							if(Value.dataElement==iValue){
+								if($scope.formListOtrosi[dKey]==undefined)
+									$scope.formListOtrosi[dKey]=[];
+								if(iKey=="ruta"){
+									if(Value.value=="")
+										$scope.formListOtrosi[dKey][iKey]=undefined;
+									else
+										$scope.formListOtrosi[dKey][iKey]=commonvariable.urldownload+"/"+commonvariable.folder+"/"+Value.value;
+								}
+								else
+									$scope.formListOtrosi[dKey][iKey]=Value.value;
+												
+							}
+						});
+					});
+			});
+		});
+	};
+
+
+
+	$scope.loadInfomationEvent=function(Stage,type,entity){
 		TrackerEvent.get({
 			orgUnit:commonvariable.OrganisationUnit,
-			programStage:commonvariable.supervisionStage,
-			trackedEntityInstance:DataValue.trackedEntityInstance
+			programStage:Stage,
+			trackedEntityInstance:entity
 		}).$promise.then(function(data){
 			$scope.supervisionlist=data;
-			$scope.contructsupervision();
+			if(type=="Supervision" || type=="ListContract")
+				$scope.contructsupervision();
+			else
+				$scope.contructOtrosi();
 		 });
 		
 	};
-	
 
-	$scope.loadInfomationEvent();
+	$scope.typeattachselected= DataValue.typeattachselected;
 
 	$scope.showinfocontract=false;
 	$scope.showinfosupervision=false;
 	$scope.showinfootrosi=false;
 	$scope.showlistSupervision=false;
-
-	$scope.typeattachselected= DataValue.typeattachselected;
+	$scope.showlistOtrosi=false;
+	
 	switch($scope.typeattachselected){
 		case 'Contrato':
 			$scope.showinfocontract=true;
 			$scope.showinfosupervision=false;
 			$scope.showinfootrosi=false;
 			$scope.showlistSupervision=false;
+			$scope.showlistOtrosi=false;
 			break;
 		case 'Supervision':
+			$scope.loadInfomationEvent(commonvariable.supervisionStage,$scope.typeattachselected,DataValue.trackedEntityInstance);
 			$scope.showinfocontract=false;
 			$scope.showinfosupervision=true;
 			$scope.showinfootrosi=false;
 			$scope.showlistSupervision=false;
+			$scope.showlistOtrosi=false;
 			break;
 		case 'Adicional - Otro Si':
+			$scope.loadInfomationEvent(commonvariable.otroSiStage,$scope.typeattachselected,DataValue[0]);
 			$scope.showinfocontract=false;
 			$scope.showinfosupervision=false;
 			$scope.showinfootrosi=true;
 			$scope.showlistSupervision=false;
+			$scope.showlistOtrosi=false;
 			break;
 		case 'ListContract':
+			$scope.loadInfomationEvent(commonvariable.supervisionStage,$scope.typeattachselected,DataValue.trackedEntityInstance);
 			$scope.showinfocontract=false;
 			$scope.showinfosupervision=false;
 			$scope.showinfootrosi=false;
 			$scope.showlistSupervision=true;
+			$scope.showlistOtrosi=false;
+			break;
+		case 'ListOtrosi':
+			$scope.loadInfomationEvent(commonvariable.otroSiStage,$scope.typeattachselected,DataValue[0]);
+			$scope.showinfocontract=false;
+			$scope.showinfosupervision=false;
+			$scope.showinfootrosi=false;
+			$scope.showlistSupervision=false;
+			$scope.showlistOtrosi=true;
 			break;
 	}
 	$scope.uploadFile = function(){
@@ -326,25 +418,43 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
 					 $scope.supervisionlist.events[0].dataValues=[];
 
 				var lim=$scope.supervisionlist.events[0].dataValues.length;
-
-		  		angular.forEach(commonvariable.DataelementSupervision[($scope.currentsupervisior==undefined?0:$scope.currentsupervisior)*1+1], function(dValue, dKey) {
-						$scope.supervisionlist.events[0].dataValues[lim++]={		
-				  				"dataElement":dValue,
-				  				"value":commonvariable.OptionSet[dKey.substring(0, dKey.length-1)].code,
-				  				"providedElsewhere":false
-				  				};
+				var pos=($scope.currentsupervisior==undefined?0:$scope.currentsupervisior)*1;
+		  		angular.forEach(commonvariable.DataelementSupervision[pos], function(dValue, dKey) {
+						if(dKey!="fechainicio"  && dKey!="fechafinal")
+							$scope.supervisionlist.events[0].dataValues[lim++]={		
+					  				"dataElement":dValue,
+					  				"value":commonvariable.OptionSet[dKey.substring(0, dKey.length-1)].code,
+					  				"providedElsewhere":false
+					  				};
 
 					});
-
+		  		//Date of the contract
+		  		var lim=$scope.supervisionlist.events[0].dataValues.length;
+		  		if($scope.currentsupervisior==undefined){
+		  			$scope.supervisionlist.events[0].dataValues[lim++]={		
+				  				"dataElement":commonvariable.DataelementSupervision[0].fechainicio,
+				  				"value":$scope.initDate,
+				  				"providedElsewhere":false
+				  				};
+				  	$scope.supervisionlist.events[0].dataValues[lim++]={		
+				  				"dataElement":commonvariable.DataelementSupervision[0].fechafinal,
+				  				"value":$scope.endDate,
+				  				"providedElsewhere":false
+				  				};
+		  		}
 		  		SaveDataEvent.update({uid:$scope.supervisionlist.events[0].event},$scope.supervisionlist.events[0]);
 			
-		  		console.log($scope.supervisionlist);
-
-	  		  	
+  		  	
 	  		  	break;
 			  
-	    case "OTROsi":
-	    		
+	    case "Adicional - Otro Si":
+	    		var lim=$scope.supervisionlist.events[0].dataValues.length;
+				$scope.supervisionlist.events[0].dataValues[lim++]={
+	  				"dataElement":commonvariable.DataElementOtroSI[DataValue.numotrosi-1].ruta,
+	  				"value":$scope.filename,
+	  				"providedElsewhere":false
+	  				}
+	  			SaveDataEvent.update({uid:$scope.supervisionlist.events[0].event},$scope.supervisionlist.events[0]);
 	    		break;
 		}
 	    if($scope.typeattachselected=="Contrato"){

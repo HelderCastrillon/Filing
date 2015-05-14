@@ -41,7 +41,12 @@
 
 <a ng-click="openAddinfo('','Supervision',dt.rSupervision,dt.DataEvent)" class="btn btn-info"><span class="glyphicon glyphicon glyphicon-refresh" aria-hidden="true"></span> </a>
 </td>
-<td><a ng-click="openAddinfo('','Adicional - Otro Si',dt.rContrato,dt.DataEvent)" class="btn btn-info">Ver</a></td>
+<td>
+<a ng-click="openAddinfo('','ListOtrosi',undefinded,dt)" class="btn btn-info"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> </a>
+<a ng-hide="dt.ruta" ng-click="openAddinfo('','Adicional - Otro Si',undefinded,dt)" class="btn btn-danger"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
+
+
+</td>
 </tr>
 </table>
 
@@ -168,18 +173,58 @@
 
 		<div class="row" ng-show="showinfootrosi">
 			<div class="col-md-11">
+				
+							<div class="panel panel-default">
+							  <div class="panel-heading">
+							    <h3 class="panel-title">Adjuntar Otro si</h3>
+							  </div>
+							  <div class="panel-body">
+							    
+							    <input type="file" file-model="myFile" accept="application/pdf"/>
+								<div class="row">
+									<div class="col-md-10">
+									<progressbar class="progress-striped {{upactive}}" max="100" value="progress" type="warning"></progressbar>
+									</div>
+									<div class="col-md-2">
+									<span class="glyphicon glyphicon-ok" ng-show="showinfo" aria-hidden="true"></span>
+									</div>
+								</div>
+								<button type="button" class="btn btn-info" ng-click="uploadFile()">{{'CONTRACT_UPLOAD_FILE_BUTTON'| translate}}</button>
+								{{imgurl}}
+							  </div>
+							</div>
+					
+			</div>  
+		</div>  
+		<!-- end Otro Si -->
+<!-- List Supervision -->
+
+		<div class="row" ng-show="showlistOtrosi">
+			<div class="col-md-11">
 				<div class="panel panel-default">
 				  <div class="panel-heading">
-				    <h3 class="panel-title">{{'CONTRACT_SUPERVISOR_TITTLE'| translate}}</h3>
+				    <h3 class="panel-title">Otro Si</h3>
 				  </div>
 				  <div class="panel-body">
-
+					<table class="table table-condensed">
+				      <thead>
+				        <tr>
+				          <th>#</th>
+				          <th>Documento</th>
+				        </tr>
+				      </thead>
+				      <tbody>
+				        <tr ng-repeat="os in formListOtrosi">
+				          <td scope="row">{{os.codigo}}</td>
+				          <td><a target="_blank" href="{{os.ruta==undefined?'#':os.ruta}}">{{os.ruta==undefined?"Pendiente de importar":"Descargar"}}</a></td>
+				        </tr>				         			        			        
+				      </tbody>
+				    </table>
 				  </div>
 				</div>
 			</div>  
 		</div>  
-		<!-- end Otro Si -->
-
+		<!-- end Supervision -->
 		<!-- List Supervision -->
 
 		<div class="row" ng-show="showlistSupervision">
@@ -239,7 +284,7 @@
 		<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
         <!-- Button -->
         <div class="modal-footer">
-            <button class="btn btn-primary" ng-hide="showlistSupervision" ng-click="ok()">{{'CONTRACT_UPLOAD_BUTTON_SAVE'| translate}}</button>
+            <button class="btn btn-primary" ng-hide="showlistSupervision || showlistOtrosi" ng-click="ok()">{{'CONTRACT_UPLOAD_BUTTON_SAVE'| translate}}</button>
             <button class="btn btn-warning" ng-click="cancel()">{{'CONTRACT_UPLOAD_BUTTON_CANCEL'| translate}}</button>
         </div>
 
