@@ -31,8 +31,8 @@
 <th>{{'CONTRACT_TABLE_URL_OTROSI'| translate}}</th>
 </tr>
 <tr ng-repeat="dt in Entities.rows"  class="{{(dt.nContrato)?'':'success'}}" >
-<td>{{dt[5]}} {{dt[6]}}-{{dt[7]}}</td>
-<td>{{dt[8]}}</td>
+<td>{{dt[7]}} {{dt[8]}}-{{dt[9]}}</td>
+<td>{{dt[6]}} {{dt[10]}}</td>
 <td>{{dt.nContrato}}</td>
 <td>{{dt.fContrato}}</td>
 <td><a ng-click="openAddinfo('','Contrato',dt.rContrato,dt.DataEvent)" class="btn btn-info"><span class="{{dt.rContrato!=undefined?'glyphicon glyphicon-paperclip':'glyphicon glyphicon-plus-sign'}}" aria-hidden="true"></span> </a></td>

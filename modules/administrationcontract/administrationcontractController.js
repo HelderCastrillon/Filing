@@ -329,7 +329,7 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
     // Date datepicker
   $scope.today = function() {
     datetoday = new Date();
-    $scope.ContractDate=(datetoday.getDate()<=9?"0"+datetoday.getDate():datetoday.getDate())+"/"+(datetoday.getMonth()<=9?"0"+datetoday.getMonth():datetoday.getMonth())+"/"+datetoday.getFullYear();
+    $scope.ContractDate=datetoday.getFullYear()+"-"+(datetoday.getMonth()<=9?"0"+datetoday.getMonth():datetoday.getMonth())+"-"+(datetoday.getDate()<=9?"0"+datetoday.getDate():datetoday.getDate());
   	$scope.initDate=$scope.ContractDate;
   	$scope.endDate=$scope.ContractDate;
 
