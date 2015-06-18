@@ -18,10 +18,12 @@ Dhis2Api.factory("commonvariable", function () {
 	};
 	 today();
 	var Vari={
-			url:"http://localhost:8080/dhis/api/",
-			urlbase:"http://localhost:8080/dhis/",
-			urldownload:"http://localhost:8080/externalfiledhis/",
-			urlupload:"../../../upload/uploadFile",
+			url:"http://190.146.87.62/dhis/api/",
+            urlbase:"http://190.146.87.62/dhis/",
+            urldownload:"http://190.146.87.62/externalfiledhis/",
+            urlupload:"../../../upload/upload.php",
+            folder:"Contratos",
+			urlemail:"../../../upload/sendmail.php",
 			folder:"Contratos",
 			OrganisationUnit:"z37AIsY28kM",
 			TypeEntity:"WkBTuQkUtRM",
@@ -108,5 +110,25 @@ Dhis2Api.factory("Optionset",['$resource','commonvariable', function ($resource,
 	return $resource( commonvariable.url+"optionSets/:uid", 
 	{uid:'@uid'},
   { get: { method: "GET"}
+  });
+}]);
+
+Dhis2Api.factory("Users",['$resource','commonvariable', function ($resource,commonvariable) {
+	return $resource( commonvariable.url+"users", 
+	{fields:'name,code,email,userCredentials[openId,userRoles[id]]',
+	pageSize:1000},
+  	{get: { method: "GET"}
+  });
+}]);
+
+Dhis2Api.factory("sendmailservice",['$resource','commonvariable', function ($resource,commonvariable) {
+	return $resource( commonvariable.urlemail, 
+	{to:'@to',
+	toname:'@toname',
+	fromname:'@fromname',
+	subject:'@subject',
+	message:'@message'
+	},
+  { post: { method: "POST"}
   });
 }]);

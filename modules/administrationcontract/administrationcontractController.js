@@ -139,7 +139,7 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 
 
 }]);
-appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $filter, fileUpload,commonvariable,$timeout,TrackerEntityinProgram,DataValue,SaveDataEvent,TrackerEvent,Optionset) {
+appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $filter, fileUpload,commonvariable,$timeout,TrackerEntityinProgram,DataValue,SaveDataEvent,TrackerEvent,Optionset,Users,sendmailservice) {
 	
 	$scope.alerts=[];
 	
@@ -443,7 +443,12 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
 				  				};
 		  		}
 		  		SaveDataEvent.update({uid:$scope.supervisionlist.events[0].event},$scope.supervisionlist.events[0]);
-			
+				
+				Users.get().$promise.then(function(data){
+						if(data.userCredentials.openId==commonvariable.OptionSet[dKey.substring(0, dKey.length-1)].code){
+							console.log(data.email);
+						}
+				 });
   		  	
 	  		  	break;
 			  
