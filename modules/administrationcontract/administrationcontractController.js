@@ -444,11 +444,35 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
 		  		}
 		  		SaveDataEvent.update({uid:$scope.supervisionlist.events[0].event},$scope.supervisionlist.events[0]);
 				
+				///send notification
 				Users.get().$promise.then(function(data){
-						if(data.userCredentials.openId==commonvariable.OptionSet[dKey.substring(0, dKey.length-1)].code){
-							console.log(data.email);
-						}
-				 });
+						angular.forEach(data.users, function(dvalue,dkey){
+							if(dvalue.userCredentials.openId==commonvariable.OptionSet.supervisor.code){
+								///
+
+								var mensajesupervision='<h3> Estimado Supervisor : ' + dvalue.name+"</h3>";
+								mensajesupervision+="<br> <h4> El presente correo es informativo y se le envía para notificarle que se le ha asignado la supervisión de un contrato, ";
+								mensajesupervision+="recuerde que usted recibirá el oficio de asignación de supervisión prontamente. </h4>";
+								mensajesupervision+="<br> Para ver los contratos asignados puede usted ingresar a la plataforma DHIS2 con sus credenciales siguiendo los pasos a continuación:"; 
+								mensajesupervision+="<br> 1) ingresar a la plataforma DHIS2 en la dirección <a href='http://192.146.87.62/dhis/' target='_blank'>http://192.146.87.62/dhis/</a>"; 
+								mensajesupervision+="<br> 2)  a continuación escriba su usuario y su contraseña"; 
+								mensajesupervision+="<br> 3)  proceso a ingresar al modulo de supervisión, que se encuentra en el menú principal"; 
+								mensajesupervision+="<br> Si tiene algun inconveniente para ingresar a la plataforma  DHIS2 le pedimos el favor de acercarse a la oficina de sistemas";
+								mensajesupervision+="<br> gracias"; 
+
+								///
+
+								sendmailservice.post({},
+									{to:dvalue.email,
+									toname:"Supervisor - "+dvalue.name,
+									fromname:'Sistema de radicación de contratos - Notificacion automatica',
+									subject:'Correo informativo - Notificación de supervisión de contrato',
+									message:mensajesupervision
+									});
+							}		
+
+						});	 					
+				 }); 
   		  	
 	  		  	break;
 			  
@@ -460,6 +484,37 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
 	  				"providedElsewhere":false
 	  				}
 	  			SaveDataEvent.update({uid:$scope.supervisionlist.events[0].event},$scope.supervisionlist.events[0]);
+
+
+				///send notification
+				Users.get().$promise.then(function(data){
+						angular.forEach(data.users, function(dvalue,dkey){
+							if(dvalue.userCredentials.openId==commonvariable.OptionSet.supervisor.code){
+								///
+
+								var mensajesupervision='<h3> Estimado Supervisor : ' + dvalue.name+"</h3>";
+								mensajesupervision+="<br> <h4> El presente correo es informativo y se le envía para notificarle que se le registrado un otrosi al un contrato supervisado. </h4>";
+								mensajesupervision+="<br> Para ver los contratos asignados puede usted ingresar a la plataforma DHIS2 con sus credenciales siguiendo los pasos a continuación:"; 
+								mensajesupervision+="<br> 1) ingresar a la plataforma DHIS2 en la dirección <a href='http://192.146.87.62/dhis/' target='_blank'>http://192.146.87.62/dhis/</a>"; 
+								mensajesupervision+="<br> 2)  a continuación escriba su usuario y su contraseña"; 
+								mensajesupervision+="<br> 3)  proceso a ingresar al modulo de supervisión, que se encuentra en el menú principal"; 
+								mensajesupervision+="<br> Si tiene algun inconveniente para ingresar a la plataforma  DHIS2 le pedimos el favor de acercarse a la oficina de sistemas";
+								mensajesupervision+="<br> gracias"; 
+
+								///
+
+								sendmailservice.post({},
+									{to:dvalue.email,
+									toname:"Supervisor - "+dvalue.name,
+									fromname:'Sistema de radicación de contratos - Notificación automática',
+									subject:'Correo informativo - Notificación de OtroSI de contrato Supervisado',
+									message:mensajesupervision
+									});
+							}		
+
+						});	 					
+				 }); 
+
 	    		break;
 		}
 	    if($scope.typeattachselected=="Contrato"){
