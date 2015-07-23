@@ -285,7 +285,7 @@ appContractSDSC.controller('ModalInstanceCtrl', function ($scope, $modalInstance
 		$scope.infofile=angular.fromJson(file);
         var uploadUrl = commonvariable.urlupload;
         currentdate= new Date();
-        $scope.filename= currentdate.getTime()+"-" + $scope.infofile.name;
+        $scope.filename= "Contrato-"+currentdate.getTime()+".pdf" //+ $scope.infofile.name;
         fileUpload.uploadFileToUrl(file, commonvariable.urlupload,$scope.filename, commonvariable.folder);
         $scope.progress=0;
         $scope.showinfo=false;
