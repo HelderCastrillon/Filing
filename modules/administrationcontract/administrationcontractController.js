@@ -11,7 +11,11 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 							}
 						});
 					});
-					$scope.Entities.rows[eKey]['DataEvent']=value;
+					$scope.Entities.rows[eKey]['DataEvent'] = value;
+					console.log($scope.Entities.rows[eKey]);
+					if ($scope.Entities.rows[eKey].DataValue == undefined) {
+					    $scope.Entities.rows[eKey]['DataEvent'] = [];
+					}
 				}
 			});
 		//console.log($scope.Entities.rows);
@@ -77,7 +81,7 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 			page:nextpage,
 			query:$scope.likesearch
 		}).$promise.then(function(data){
-			$scope.Entities=data;
+		    $scope.Entities = data;
 			$scope.numPages=data.metaData.pager.pageCount;
 			$scope.loadInfomationEvent();
 			// find otrosi

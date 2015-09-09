@@ -75,7 +75,7 @@ Dhis2Api.factory("Entity",['$resource','commonvariable', function ($resource,com
 }]);
 
 Dhis2Api.factory("TrackerEntityinProgram",['$resource','commonvariable', function ($resource,commonvariable) {
-	return $resource( commonvariable.url+"trackedEntityInstances", 
+    return $resource(commonvariable.url + "trackedEntityInstances/query.json",
 	{te:'@te',
 	ou:'@ou',
 	program:'@program',
@@ -83,7 +83,9 @@ Dhis2Api.factory("TrackerEntityinProgram",['$resource','commonvariable', functio
 	programStatus:'@programStatus',
 	eventStartDate:'@eventStartDate',
 	eventEndDate:'@eventEndDate',
-	eventStatus:'@eventStatus'},
+	eventStatus: '@eventStatus',
+	pageSize:'20',
+	totalPages:'true'},
   { get: { method: "GET"},
 	post: { method: "POST"},
 	remove: {method:'DELETE'}
