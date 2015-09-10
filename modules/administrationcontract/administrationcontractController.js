@@ -1,9 +1,9 @@
 appContractSDSC.controller('administrationcontractController', ['$scope','$modal','TrackerEntityinProgram','TrackerEvent','commonvariable', function($scope,$modal,TrackerEntityinProgram,TrackerEvent,commonvariable){
 	
-	$scope.findValue=function(events){
+    $scope.findValue1 = function (events) {
 		angular.forEach($scope.Entities.rows, function(eValue, eKey) {
-			angular.forEach(events, function(value, key) {
-				if(value.trackedEntityInstance==eValue[0]){
+		    angular.forEach(events, function (value, key) {
+		        if (value.trackedEntityInstance == eValue[0]) {
 					angular.forEach(commonvariable.DataElement, function(dValue, dKey) {
 						angular.forEach(value.dataValues, function(vValue, vKey) {
 							if(vValue.dataElement==dValue){
@@ -13,15 +13,43 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 					});
 					$scope.Entities.rows[eKey]['DataEvent'] = value;
 					console.log($scope.Entities.rows[eKey]);
-					if ($scope.Entities.rows[eKey].DataValue == undefined) {
-					    $scope.Entities.rows[eKey]['DataEvent'] = [];
-					}
 				}
 			});
-		//console.log($scope.Entities.rows);
+			
 		});
 			
-	}
+    }
+    
+    $scope.logs = function (val) {
+        console.log(val);
+    }
+    $scope.findValue = function () {
+        angular.forEach($scope.Entities.rows, function (eValue, eKey) {
+
+            TrackerEvent.get({
+                orgUnit: commonvariable.OrganisationUnit,
+                programStage: commonvariable.programStage,
+                trackedEntityInstance: eValue[0]
+            }).$promise.then(function (data) {
+                var currentkey = eKey;
+                $scope.trackerValues = data;
+                var value = data.events[0];
+                    angular.forEach(commonvariable.DataElement, function (dValue, dKey) {
+                        angular.forEach(value.dataValues, function (vValue, vKey) {
+                            if (vValue.dataElement == dValue) {
+                                $scope.Entities.rows[eKey][dKey] = vValue.value;
+                            }
+                        });
+                    });
+                    $scope.Entities.rows[currentkey]['DataEvent'] = value;
+                    console.log($scope.Entities.rows[currentkey]);
+            });
+
+        });
+        
+    }
+
+
 	
 	//find otroSi
 	$scope.findOtrosi=function(){
@@ -83,7 +111,8 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 		}).$promise.then(function(data){
 		    $scope.Entities = data;
 			$scope.numPages=data.metaData.pager.pageCount;
-			$scope.loadInfomationEvent();
+		    //$scope.loadInfomationEvent();
+			$scope.findValue();
 			// find otrosi
 			$scope.loadEventOtrosi();
 		 });
@@ -91,13 +120,14 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 		
 	}
 	
-	$scope.loadInfomationEvent=function(){
+	$scope.loadInfomationEvent=function(trackedstateid){
 		TrackerEvent.get({
 			orgUnit:commonvariable.OrganisationUnit,
-			programStage:commonvariable.programStage
+			programStage: commonvariable.programStage,
+			trackedEntityInstance: trackedstateid
 		}).$promise.then(function(data){
 			$scope.trackerValues=data;
-			$scope.findValue(data.events);
+			$scope.findValue1(data.events);
 		 });
 		
 	}
