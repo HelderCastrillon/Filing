@@ -12,7 +12,7 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
 						});
 					});
 					$scope.Entities.rows[eKey]['DataEvent'] = value;
-					console.log($scope.Entities.rows[eKey]);
+					//console.log($scope.Entities.rows[eKey]);
 				}
 			});
 			
@@ -31,9 +31,10 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
                 programStage: commonvariable.programStage,
                 trackedEntityInstance: eValue[0]
             }).$promise.then(function (data) {
-                var currentkey = eKey;
-                $scope.trackerValues = data;
-                var value = data.events[0];
+                try {
+                    var currentkey = eKey;
+                    $scope.trackerValues = data;
+                    var value = data.events[0];
                     angular.forEach(commonvariable.DataElement, function (dValue, dKey) {
                         angular.forEach(value.dataValues, function (vValue, vKey) {
                             if (vValue.dataElement == dValue) {
@@ -42,8 +43,14 @@ appContractSDSC.controller('administrationcontractController', ['$scope','$modal
                         });
                     });
                     $scope.Entities.rows[currentkey]['DataEvent'] = value;
-                    console.log($scope.Entities.rows[currentkey]);
-            });
+                    //console.log($scope.Entities.rows[currentkey]);
+                }
+                catch (err) {
+                    console.log("error" + err);
+                    console.log(data);
+                    console.log(eValue);
+                }
+                });
 
         });
         
